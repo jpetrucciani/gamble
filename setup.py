@@ -13,7 +13,7 @@ with open("README.rst") as readme:
 setup(
     name=__library__,
     version=__version__,
-    description=(""),
+    description=("a collection of gambling classes/tools"),
     long_description=LONG_DESCRIPTION,
     author="Jacobi Petrucciani",
     author_email="jacobi@mimirhq.com",
