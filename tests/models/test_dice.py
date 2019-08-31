@@ -10,3 +10,5 @@ def test_die():
     assert die.sides == 6
     assert die.max == 6
     assert die.min == 1
+    assert die.rolls == 0
+    assert die.net_sides == die.sides

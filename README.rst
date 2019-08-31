@@ -15,9 +15,9 @@ gamble: a collection of gambling classes/tools
    :alt: Code style: black
 
 
-.. image:: https://img.shields.io/badge/python-3.5+-blue.svg
-   :target: https://www.python.org/downloads/release/python-350/
-   :alt: Python 3.5+ supported
+.. image:: https://img.shields.io/badge/python-3.6+-blue.svg
+   :target: https://www.python.org/downloads/release/python-360/
+   :alt: Python 3.6+ supported
 
 
 **gamble**
