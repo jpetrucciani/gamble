@@ -1,5 +1,5 @@
 gamble: a collection of gambling classes/tools
-========================
+==============================================
 
 .. image:: https://travis-ci.org/jpetrucciani/gamble.svg?branch=master
     :target: https://travis-ci.org/jpetrucciani/gamble
