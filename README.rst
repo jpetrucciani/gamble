@@ -1,4 +1,4 @@
-gamble: a collection of gambling classes/tools
+gamble
 ==============================================
 
 .. image:: https://travis-ci.org/jpetrucciani/gamble.svg?branch=master
@@ -20,14 +20,14 @@ gamble: a collection of gambling classes/tools
    :alt: Python 3.6+ supported
 
 
-**gamble**
+**gamble** is a simple library that implements a collection of some common gambling-related classes
 
 
 Features
 --------
 
-- dice
-- (coming soon) cards
+- die, dice
+- cards, decks
 
 Usage
 -----
@@ -40,8 +40,67 @@ Installation
    pip install gamble
 
 Basic Usage
-^^^^^^^^^^^
+-----------
+
+Dice
+^^^^
 
 .. code-block:: python
 
    import gamble
+
+   # create dice, defaults to 2 6-sided dice
+   dice = gamble.Dice()
+
+   # roll
+   dice.roll()
+   >>> 6
+   dice.rolls
+   >>> 1
+
+   # max, min
+   dice.max
+   >>> 12
+   dice.min
+   >>> 2
+
+   # d-notation for dice constructor
+   dice = gamble.Dice('d20+8')
+   
+   # max, min
+   dice.max
+   >>> 28
+   dice.min
+   >>> 9
+
+   # parts
+   dice.parts
+   >>> [<d20 Die>, 8]
+
+
+Cards
+^^^^^
+
+.. code-block:: python
+
+   import gamble
+
+   # create a deck, defaults to the standard 52 card deck, no jokers
+   # the deck will be shuffled by default, unless you pass shuffle=False
+   deck = gamble.Deck()
+
+   deck.cards_left
+   >>> 52
+   
+   deck.top
+   >>> <Card:7♠>
+   deck.bottom
+   >>> <Card:9♠>
+   deck.shuffle()  # you can also pass times=(int) to shuffle more than once
+
+   card = deck.draw()  # you can also pass times=(int) to draw a list of cards
+   >>> <Card:A♠>
+
+   # the unicode cards icons are implemented as well!
+   card.unicode
+   >>> "🂡"

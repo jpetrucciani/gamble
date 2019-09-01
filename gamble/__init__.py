@@ -1,4 +1,4 @@
 """
 gamble module
 """
-from gamble.models import Die, Dice  # noqa
+from gamble.models import *  # noqa

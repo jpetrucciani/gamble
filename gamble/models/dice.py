@@ -25,13 +25,13 @@ class Die:
         """repr"""
         return self.__str__()
 
-    def __lt__(self, other) -> bool:
+    def __lt__(self, other: "Die") -> bool:
         """less than dunder method"""
         return self.net_sides < other.net_sides
 
     @property
     def net_sides(self) -> int:
-        """"""
+        """the raw max sides * multiplier"""
         return self.sides * self.multiplier
 
     @property
@@ -54,7 +54,7 @@ class Die:
 class Dice:
     """a group of die objects"""
 
-    def __init__(self, init_string: str) -> None:
+    def __init__(self, init_string: str = "2d6") -> None:
         """create a new d notation group of dice"""
         self.__d_string = init_string.strip().lower().replace("-", "+-")
         self.d_strings = [x.strip() for x in self.__d_string.split("+")]
@@ -89,12 +89,12 @@ class Dice:
         return [*self.dice, *self.bonuses]
 
     @property
-    def max(self):
+    def max(self) -> int:
         """returns the max value these dice + bonuses could return"""
         return sum([*[x.max for x in self.dice], *self.bonuses])
 
     @property
-    def min(self):
+    def min(self) -> int:
         """returns the min value these dice + bonuses could return"""
         return sum([*[x.min for x in self.dice], *self.bonuses])
 

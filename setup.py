@@ -3,8 +3,10 @@
 pip setup file
 """
 from setuptools import setup, find_packages
-from gamble.globals import __library__, __version__
 
+
+__library__ = "gamble"
+__version__ = "0.0.5"
 
 with open("README.rst") as readme:
     LONG_DESCRIPTION = readme.read()
