@@ -26,8 +26,9 @@ gamble
 Features
 --------
 
-- die, dice
-- cards, decks
+- die, dice, d-notation
+- cards, decks, hands
+- poker ranks, hand comparison
 
 Usage
 -----
@@ -104,3 +105,25 @@ Cards
    # the unicode cards icons are implemented as well!
    card.unicode
    >>> "🂡"
+
+   # draw a poker hand, default size 5
+   hand = deck.draw_hand(). # you can pass size=(int) to draw a different size hand
+   >>> <Hand[5](straight flush) [A♠, 2♠, 3♠, 4♠, 5♠]>
+
+   hand.rank
+   >>> Rank(name='straight flush', value=8)
+
+   # arbitrary hand, from text notation
+   new_hand = gamble.Hand.get("2c,3c,4c,Kc,Kh")
+   >>> <Hand[5](pair) [2♣, 3♣, 4♣, K♣, K♥]>
+
+   new_hand.rank
+   >>> Rank(name='pair', value=1)
+
+   hand > new_hand
+   >>> True
+
+Todo
+----
+- hand equals/ge/le method
+- hand ranking when hands are very similar

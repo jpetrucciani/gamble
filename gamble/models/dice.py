@@ -29,6 +29,18 @@ class Die:
         """less than dunder method"""
         return self.net_sides < other.net_sides
 
+    def __gt__(self, other: "Die") -> bool:
+        """greater than dunder method"""
+        return self.net_sides > other.net_sides
+
+    def __le__(self, other: "Die") -> bool:
+        """less than or equal to dunder method"""
+        return self < other or self == other
+
+    def __ge__(self, other: "Die") -> bool:
+        """greater than or equal to dunder method"""
+        return self > other or self == other
+
     @property
     def net_sides(self) -> int:
         """the raw max sides * multiplier"""

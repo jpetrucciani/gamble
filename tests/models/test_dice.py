@@ -15,6 +15,10 @@ def test_die_init() -> None:
     assert die.net_sides == die.sides
     assert str(die) == "<d6 Die>"
     assert repr(die) == "<d6 Die>"
+    assert not die > die
+    assert not die < die
+    assert die >= die
+    assert die <= die
 
 
 def test_dice_init() -> None:
