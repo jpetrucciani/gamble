@@ -1,13 +1,20 @@
 """
-custom exceptions and error handling
+@desc custom exceptions and error handling
 """
 
 
 class GambleException(Exception):  # pragma: no cover
-    """base gamble exception class"""
+    """
+    @desc base gamble exception class
+    """
 
     def __init__(self, *args, **kwargs):  # type: ignore
-        """exception constructor"""
+        """
+        @cc 2
+        @desc exception constructor
+        @arg args: extra args to pass to the exception
+        @arg kwargs: extra kwargs to parse
+        """
         self.__dict__.update(kwargs)
         extra = ""
         if args:
@@ -21,4 +28,6 @@ class GambleException(Exception):  # pragma: no cover
 
 
 class InvalidCard(GambleException):
-    """the given string is not a valid card"""
+    """
+    @desc the given string is not a valid card
+    """

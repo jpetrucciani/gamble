@@ -1,5 +1,5 @@
 """
-standard deck of cards submodule
+@desc standard deck of cards submodule
 """
 import random
 from collections import Counter
@@ -9,25 +9,35 @@ from gamble.errors import InvalidCard
 
 
 class Suit(SimpleNamespace):
-    """suit namespace class"""
+    """
+    @desc suit namespace class
+    """
 
 
 class Value(SimpleNamespace):
-    """value namespace class"""
+    """
+    @desc value namespace class
+    """
 
 
 class Rank(SimpleNamespace):
-    """hand ranks namespace class"""
+    """
+    @desc hand ranks namespace class
+    """
 
 
 class Card:
-    """playing card model"""
+    """
+    @desc playing card model
+    """
 
     BLACK = 0
     RED = 1
 
     class Suits:
-        """card suit enum"""
+        """
+        @desc card suit enum
+        """
 
         SPADES = Suit(
             name="spades", char="S", symbol="♠", value=0, color=0, unicode=127136
@@ -44,7 +54,11 @@ class Card:
 
         @classmethod
         def all(cls) -> List[Suit]:
-            """get all suits"""
+            """
+            @cc 1
+            @desc get all suits in this enum
+            @ret a list of the suit objects
+            """
             return sorted(
                 [
                     cls.__dict__[x]
@@ -56,7 +70,11 @@ class Card:
 
         @classmethod
         def dict(cls) -> Dict[str, Suit]:
-            """dict of char -> Suit"""
+            """
+            @cc 1
+            @desc dict of char -> Suit
+            @ret a dictionary of all the card values
+            """
             return {x.char: x for x in cls.all()}
 
     class Values:

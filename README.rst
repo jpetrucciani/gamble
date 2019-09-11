@@ -20,6 +20,11 @@ gamble
    :alt: Python 3.6+ supported
 
 
+.. image:: https://img.shields.io/badge/docstyle-archives-lightblue.svg
+   :target: https://github.com/jpetrucciani/archives
+   :alt: Documentation style: archives
+
+
 **gamble** is a simple library that implements a collection of some common gambling-related classes
 
 

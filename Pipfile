@@ -7,5 +7,6 @@ verify_ssl = true
 tox = "*"
 pytest = "*"
 pytest-cov = "*"
+archives = ">=0.6"
 
 [packages]

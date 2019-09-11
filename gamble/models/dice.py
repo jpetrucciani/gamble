@@ -1,15 +1,21 @@
 """
-dice submodule
+@desc die and dice submodule
 """
 import random
 from typing import List, Union
 
 
 class Die:
-    """a single die object"""
+    """
+    @desc a single die object
+    """
 
     def __init__(self, sides: int = 6) -> None:
-        """create a new die"""
+        """
+        @cc 2
+        @desc create a new die
+        @arg sides: the number of sides to this die
+        """
         if abs(int(sides)) < 2:
             raise Exception("A die must have at least 2 sides")
         self.sides = abs(int(sides))
@@ -18,56 +24,106 @@ class Die:
         self.rolls = 0
 
     def __str__(self) -> str:
-        """string representation"""
+        """
+        @cc 1
+        @desc dunder str method
+        @ret the string representation of this die
+        """
         return "<{}d{} Die>".format("-" if self.negative else "", self.sides)
 
     def __repr__(self) -> str:
-        """repr"""
+        """
+        @cc 1
+        @desc dunder repr method
+        @ret the repr representation of this die
+        """
         return self.__str__()
 
     def __lt__(self, other: "Die") -> bool:
-        """less than dunder method"""
+        """
+        @cc 1
+        @desc dunder less than method
+        @arg other: another Die instance
+        @ret true if this die is smaller than the other die
+        """
         return self.net_sides < other.net_sides
 
     def __gt__(self, other: "Die") -> bool:
-        """greater than dunder method"""
+        """
+        @cc 1
+        @desc dunder greater than method
+        @arg other: another Die instance
+        @ret true if this die is bigger than the other die
+        """
         return self.net_sides > other.net_sides
 
     def __le__(self, other: "Die") -> bool:
-        """less than or equal to dunder method"""
+        """
+        @cc 1
+        @desc dunder less than or equal to method
+        @arg other: another Die instance
+        @ret true if this die is smaller than or equal to the other die
+        """
         return self < other or self == other
 
     def __ge__(self, other: "Die") -> bool:
-        """greater than or equal to dunder method"""
+        """
+        @cc 1
+        @desc dunder greater than or equal to method
+        @arg other: another Die instance
+        @ret true if this die is bigger than or equal to the other die
+        """
         return self > other or self == other
 
     @property
     def net_sides(self) -> int:
-        """the raw max sides * multiplier"""
+        """
+        @cc 1
+        @desc the raw max sides * multiplier
+        @ret the non-absolute value of this die's sides
+        """
         return self.sides * self.multiplier
 
     @property
     def max(self) -> int:
-        """returns the max value this die can roll"""
+        """
+        @cc 1
+        @desc the max value this die can roll
+        @ret the max for this die
+        """
         return -1 if self.negative else self.sides
 
     @property
     def min(self) -> int:
-        """returns the min value this die can roll"""
+        """
+        @cc 1
+        @desc the min value this die can roll
+        @ret the min for this die
+        """
         return self.sides if self.negative else 1
 
     def roll(self) -> int:
-        """roll the die"""
+        """
+        @cc 1
+        @desc roll the die
+        @ret the value rolled by this die
+        """
         value = random.randrange(self.sides) + 1
         self.rolls += 1
         return value * self.multiplier
 
 
 class Dice:
-    """a group of die objects"""
+    """
+    @desc a group of die objects
+    """
 
     def __init__(self, init_string: str = "2d6") -> None:
-        """create a new d notation group of dice"""
+        """
+        @cc 1
+        @desc create a new d notation group of dice
+        @arg init_string: a d-notation string representing a set of dice
+        """
         self.__d_string = init_string.strip().lower().replace("-", "+-")
         self.d_strings = [x.strip() for x in self.__d_string.split("+")]
         self.dice: List[Die] = []
@@ -88,30 +144,54 @@ class Dice:
         self.rolls = 0
 
     def __str__(self) -> str:
-        """string representation of the dice"""
+        """
+        @cc 1
+        @desc dunder str method
+        @ret the string representation of this set of dice
+        """
         return "{{\n{}\n}}".format("\n".join([str(x) for x in self.parts]))
 
     def __repr__(self) -> str:
-        """repr"""
+        """
+        @cc 1
+        @desc dunder repr method
+        @ret the repr representation of this set of dice
+        """
         return self.__str__()
 
     @property
     def parts(self) -> List[Union[Die, int]]:
-        """returns the listing of the parts of this roll + bonuses"""
+        """
+        @cc 1
+        @desc listing of the parts of this roll + bonuses
+        @ret a list of the parts of this dice calculation
+        """
         return [*self.dice, *self.bonuses]
 
     @property
     def max(self) -> int:
-        """returns the max value these dice + bonuses could return"""
+        """
+        @cc 1
+        @desc the max value these dice can roll
+        @ret the max for these dice + bonuses
+        """
         return sum([*[x.max for x in self.dice], *self.bonuses])
 
     @property
     def min(self) -> int:
-        """returns the min value these dice + bonuses could return"""
+        """
+        @cc 1
+        @desc the min value these dice can roll
+        @ret the min for these dice + bonuses
+        """
         return sum([*[x.min for x in self.dice], *self.bonuses])
 
     def roll(self, verbose: bool = False) -> int:
-        """rolls the group of dice"""
+        """
+        @cc 1
+        @desc roll the dice
+        @ret the value rolled by this dice
+        """
         self.rolls += 1
         rolls = [x.roll() for x in self.dice]
         return sum([*rolls, *self.bonuses])

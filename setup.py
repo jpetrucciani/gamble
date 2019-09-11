@@ -6,7 +6,7 @@ from setuptools import setup, find_packages
 
 
 __library__ = "gamble"
-__version__ = "0.0.6"
+__version__ = "0.7"
 
 with open("README.rst") as readme:
     LONG_DESCRIPTION = readme.read()
