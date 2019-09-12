@@ -1,4 +1,5 @@
 """
+@author jacobi petrucciani
 @desc die and dice submodule
 """
 import random
@@ -120,7 +121,7 @@ class Dice:
 
     def __init__(self, init_string: str = "2d6") -> None:
         """
-        @cc 1
+        @cc 2
         @desc create a new d notation group of dice
         @arg init_string: a d-notation string representing a set of dice
         """
@@ -186,7 +187,7 @@ class Dice:
         """
         return sum([*[x.min for x in self.dice], *self.bonuses])
 
-    def roll(self, verbose: bool = False) -> int:
+    def roll(self) -> int:
         """
         @cc 1
         @desc roll the dice

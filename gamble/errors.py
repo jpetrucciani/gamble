@@ -1,4 +1,5 @@
 """
+@author jacobi petrucciani
 @desc custom exceptions and error handling
 """
 
@@ -8,12 +9,10 @@ class GambleException(Exception):  # pragma: no cover
     @desc base gamble exception class
     """
 
-    def __init__(self, *args, **kwargs):  # type: ignore
+    def __init__(self, *args, **kwargs) -> None:  # type: ignore
         """
         @cc 2
         @desc exception constructor
-        @arg args: extra args to pass to the exception
-        @arg kwargs: extra kwargs to parse
         """
         self.__dict__.update(kwargs)
         extra = ""

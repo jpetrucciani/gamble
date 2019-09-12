@@ -1,4 +1,5 @@
 """
+@author jacobi petrucciani
 @desc standard deck of cards submodule
 """
 import random
@@ -78,7 +79,9 @@ class Card:
             return {x.char: x for x in cls.all()}
 
     class Values:
-        """card value enum"""
+        """
+        @desc card value enum
+        """
 
         ACE = Value(char="A", name="ace", value=1)
         TWO = Value(char="2", name="two", value=2)
@@ -96,7 +99,11 @@ class Card:
 
         @classmethod
         def all(cls) -> List[Value]:
-            """get all suits"""
+            """
+            @cc 1
+            @desc get all suits
+            @ret a list of all the values in this enum
+            """
             return sorted(
                 [
                     cls.__dict__[x]
@@ -108,17 +115,31 @@ class Card:
 
         @classmethod
         def dict(cls) -> Dict[str, Value]:
-            """dict of char -> Value"""
+            """
+            @cc 1
+            @desc dict of char -> Value
+            @ret a dictionary of card characters to their Value representations
+            """
             return {x.char: x for x in cls.all()}
 
     def __init__(self, value: Value = Values.ACE, suit: Suit = Suits.SPADES) -> None:
-        """card constructor"""
+        """
+        @cc 1
+        @desc card constructor
+        @arg value: the value of the card to create
+        @arg suit: the suit of the card to create
+        """
         self.value = value
         self.suit = suit
 
     @classmethod
     def get(cls, text: str) -> "Card":
-        """get a card by text representation"""
+        """
+        @cc 4
+        @desc get a card by text representation
+        @arg text: a string representation of a card value and suit
+        @ret the created card, if the string was valid
+        """
         if not len(text) == 2:
             raise InvalidCard("Too many characters for a card!")
         vals = cls.Values.dict()
@@ -132,67 +153,124 @@ class Card:
 
     @property
     def color(self) -> int:
-        """returns the color of the card"""
+        """
+        @cc 1
+        @desc returns the color of the card
+        @ret the color enum int for this card
+        """
         return self.suit.color
 
     @property
     def full_name(self) -> str:
-        """returns the full name for this card"""
+        """
+        @cc 1
+        @desc returns the full name for this card
+        @ret the full name of this card
+        """
         return "{} of {}".format(self.value.name, self.suit.name)
 
     @property
     def is_black(self) -> bool:
-        """is_black property"""
+        """
+        @cc 1
+        @desc is_black property
+        @ret if this card is in a black suit
+        """
         return self.color == Card.BLACK
 
     @property
+    def is_red(self) -> bool:
+        """
+        @cc 1
+        @desc is_red property
+        @ret if this card is in a red suit
+        """
+        return self.color == Card.RED
+
+    @property
     def unicode(self) -> str:
-        """get the fun little unicode card for this card"""
+        """
+        @cc 1
+        @desc get the fun little unicode card for this card
+        @ret the nice looking unicode char for the suit of this card
+        """
         # we need to skip the 'knight' card if we're a queen or king
         hack = int(self.value.value >= 12)
         return chr(self.suit.unicode + self.value.value + hack)
 
-    @property
-    def is_red(self) -> bool:
-        """is_red property"""
-        return self.color == Card.RED
-
     def __str__(self) -> str:
-        """string representation of this card"""
+        """
+        @cc 1
+        @desc string representation of this card
+        @ret a string of this card
+        """
         return "{}{}".format(self.value.char, self.suit.symbol)
 
     def __repr__(self) -> str:
-        """representation of this card"""
+        """
+        @cc 1
+        @desc representation of this card
+        @ret a repr of this card
+        """
         return "<Card:{}>".format(str(self))
 
     def __lt__(self, other: "Card") -> bool:
-        """less than dunder method"""
+        """
+        @cc 1
+        @desc less than dunder method
+        @arg other: another card to compare against
+        @ret true if this card is less than other
+        """
         return self.value.value < other.value.value
 
     def __gt__(self, other: "Card") -> bool:
-        """greater than dunder method"""
+        """
+        @cc 1
+        @desc greater than dunder method
+        @arg other: another card to compare against
+        @ret true if this card is greater than other
+        """
         return self.value.value > other.value.value
 
     def __le__(self, other: "Card") -> bool:
-        """less than or equal to dunder method"""
+        """
+        @cc 1
+        @desc less than or equal to dunder method
+        @arg other: another card to compare against
+        @ret true if less than or equal to other
+        """
         return self < other or self == other
 
     def __ge__(self, other: "Card") -> bool:
-        """greater than or equal to dunder method"""
+        """
+        @cc 1
+        @desc greater than or equal to dunder method
+        @arg other: another card to compare against
+        @ret true if this card is greater than or equal to other
+        """
         return self > other or self == other
 
     def __eq__(self, other: object) -> bool:
-        """equal to dunder method"""
+        """
+        @cc 2
+        @desc equal to dunder method
+        @arg other: another card to compare against
+        @ret true if this card is the same as other
+        """
         if not isinstance(other, Card):
             return False
         return self.suit == other.suit and self.value == other.value
 
 
 class Hand:
-    """playing card hand model"""
+    """
+    @desc playing card hand model
+    """
 
     class Ranks:
-        """hand ranks for poker"""
+        """
+        @desc hand ranks for poker
+        """
 
         STRAIGHT_FLUSH = Rank(value=8, name="straight flush")
         FOUR_OF_A_KIND = Rank(value=7, name="four of a kind")
@@ -205,7 +283,11 @@ class Hand:
         HIGH_CARD = Rank(value=0, name="high card")
 
     def __init__(self, cards: List[Card]) -> None:
-        """hand constructor"""
+        """
+        @cc 1
+        @desc hand constructor
+        @arg cards: a list of card objects for this hand
+        """
         self._cards = cards
         self.cards = sorted(self._cards)
         self.size = len(self.cards)
@@ -213,35 +295,66 @@ class Hand:
         self.suit_counts = Counter([x.suit.value for x in self.cards])
 
     def __lt__(self, other: "Hand") -> bool:
-        """less than dunder method"""
+        """
+        @cc 1
+        @desc less than dunder method
+        @arg other: another hand to compare against
+        @ret true if this hand is less than the other
+        """
         return self.rank.value < other.rank.value
 
     def __gt__(self, other: "Hand") -> bool:
-        """greater than dunder method"""
+        """
+        @cc 1
+        @desc greater than dunder method
+        @arg other: another hand to compare against
+        @ret true if this hand is greater than the other
+        """
         return self.rank.value > other.rank.value
 
     def __len__(self) -> int:
-        """dunder len method"""
+        """
+        @cc 1
+        @desc dunder len method
+        @ret the number of cards in this hand
+        """
         return len(self.cards)
 
     def __str__(self) -> str:
-        """string representation of the hand"""
+        """
+        @cc 1
+        @desc string representation of the hand
+        @ret this hand as a string
+        """
         return "[{}]".format(", ".join([str(x) for x in self.cards]))
 
     def __repr__(self) -> str:
-        """repr of the hand"""
+        """
+        @cc 1
+        @desc repr of the hand
+        @ret this hand as repr
+        """
         return "<Hand[{}]({}) {}>".format(self.size, self.rank.name, str(self))
 
     @classmethod
     def get(cls, text: str) -> "Hand":
-        """get a hand by text representations"""
+        """
+        @cc 1
+        @desc get a hand by text representations
+        @arg text: a text representation of a hand
+        @ret a hand, if the string was valid
+        """
         card_strings = text.replace(" ", "").upper().split(",")
         cards = [Card.get(x) for x in card_strings]
         return cls(cards=cards)
 
     @property
     def rank(self) -> Rank:
-        """get the rank of this hand"""
+        """
+        @cc 9
+        @desc get the rank of this hand
+        @ret a rank object representing the rank of this hand
+        """
         if self.is_straight_flush:
             return Hand.Ranks.STRAIGHT_FLUSH
         if self.is_four_of_a_kind:
@@ -262,35 +375,64 @@ class Hand:
 
     @property
     def _vals(self) -> List[int]:
-        """values helper to make the following checks less verbose"""
+        """
+        @cc 1
+        @desc values helper to make the following checks less verbose
+        @ret a sorted list of all cards in this hand
+        """
         return sorted(list(self.value_counts.values()), reverse=True)
 
     @property
     def is_straight_flush(self) -> bool:
-        """check if the hand is a straight flush"""
+        """
+        @cc 1
+        @desc check if the hand is a straight flush
+        @ret true if straight flush
+        """
         return self.is_flush and self.is_straight
 
     @property
     def is_four_of_a_kind(self) -> bool:
-        """check if the hand is four of a kind"""
+        """
+        @cc 1
+        @desc check if the hand is four of a kind
+        @ret true if four of a kind
+        """
         return self._vals[0] == 4
 
     @property
     def is_full_house(self) -> bool:
-        """check if the hand is a full house"""
+        """
+        @cc 1
+        @desc check if the hand is a full house
+        @ret true if full house
+        """
         return self._vals[0:2] == [3, 2]
 
     @property
     def is_flush(self) -> bool:
-        """check if the hand is a flush"""
+        """
+        @cc 1
+        @desc check if the hand is a flush
+        @ret true if flush
+        """
         return len(set([x.suit.value for x in self.cards])) == 1
 
     @property
     def is_straight(self) -> bool:
-        """check if the hand is a straight"""
+        """
+        @cc 1
+        @desc check if the hand is a straight
+        @ret true if straight
+        """
 
         def check(value_set: set) -> bool:
-            """check if the given set is a straight"""
+            """
+            @cc 1
+            @desc check if the given set is a straight
+            @arg value_set: the set to check for a straight
+            @ret true if this set is a straight
+            """
             value_range = max(value_set) - min(value_set)
             return (value_range == self.size - 1) and (len(value_set) == self.size)
 
@@ -301,25 +443,44 @@ class Hand:
 
     @property
     def is_three_of_a_kind(self) -> bool:
-        """check if the hand is three of a kind"""
+        """
+        @cc 1
+        @desc check if the hand is three of a kind
+        @ret true if  is three of a kind
+        """
         return self._vals[0] == 3
 
     @property
     def is_two_pair(self) -> bool:
-        """check if the hand contains two pair"""
+        """
+        @cc 1
+        @desc check if the hand contains two pair
+        @ret true if is two pair
+        """
         return self._vals[0:2] == [2, 2]
 
     @property
     def is_one_pair(self) -> bool:
-        """check if the hand contains one pair"""
+        """
+        @cc 1
+        @desc check if the hand contains one pair
+        @ret true if is one pair
+        """
         return self._vals[0] == 2
 
 
 class Deck:
-    """playing card deck model"""
+    """
+    @desc playing card deck model
+    """
 
     def __init__(self, cards: List[Card] = None, shuffle: bool = True) -> None:
-        """deck constructor"""
+        """
+        @cc 3
+        @desc deck constructor
+        @arg cards: a list of cards for this deck
+        @arg shuffle: if we should start with the deck shuffled
+        """
         if cards:
             self.cards = cards
         else:
@@ -335,36 +496,66 @@ class Deck:
             self.shuffle()
 
     def __contains__(self, item: object) -> bool:
-        """dunder contains method"""
+        """
+        @cc 2
+        @desc dunder contains method
+        @arg item: the item to check for in this deck
+        @ret true if this deck contains the given object
+        """
         if not isinstance(item, Card):
             return False
         return item in self.cards
 
     def __str__(self) -> str:
-        """string representation of a deck"""
+        """
+        @cc 1
+        @desc string representation of a deck
+        @ret a string representation of this deck
+        """
         return "<Deck[{}]>".format(self.cards_left)
 
     def __repr__(self) -> str:
-        """term representation of a deck"""
+        """
+        @cc 1
+        @desc term representation of a deck
+        @ret a repr representation of this deck
+        """
         return str(self)
 
     @property
     def top(self) -> Card:
-        """the top card of the deck"""
+        """
+        @cc 1
+        @desc the top card of the deck
+        @ret a card off the top of the deck
+        """
         return self.cards[-1]
 
     @property
     def bottom(self) -> Card:
-        """the bottom card of the deck"""
+        """
+        @cc 1
+        @desc the bottom card of the deck
+        @ret a card off the bottom of the deck
+        """
         return self.cards[0]
 
     @property
     def cards_left(self) -> int:
-        """number of cards left in the deck"""
+        """
+        @cc 1
+        @desc number of cards left in the deck
+        @ret the number of cards left
+        """
         return len(self.cards)
 
     def draw(self, times: int = 1) -> Union[Card, List[Card]]:
-        """draws the given number of cards from the deck"""
+        """
+        @cc 3
+        @desc draws the given number of cards from the deck
+        @arg times: the number of times to draw
+        @ret a card or list of cards drawn
+        """
         if times == 1:
             self.draws += 1
             return self.cards.pop()
@@ -375,22 +566,36 @@ class Deck:
         return cards
 
     def draw_hand(self, size: int = 5) -> Hand:
-        """draw a hand from this deck"""
+        """
+        @cc 1
+        @desc draw a hand from this deck
+        @arg size: the size of hand to draw
+        @ret a hand object of size size
+        """
         cards = self.draw(times=size)
         return Hand(cards=cards if isinstance(cards, list) else [cards])
 
     def shuffle(self, times: int = 1) -> None:
-        """shuffle the deck"""
+        """
+        @cc 2
+        @desc shuffle the deck
+        @arg times: the number of times to shuffle the deck
+        """
         for _ in range(times):
             self.shuffles += 1
             random.shuffle(self.cards)
 
 
 class EuchreDeck(Deck):
-    """deck specifically for euchre"""
+    """
+    @desc deck specifically for euchre
+    """
 
     def __init__(self, **kwargs: Any) -> None:
-        """euchre deck constructor"""
+        """
+        @cc 2
+        @desc euchre deck constructor
+        """
         cards: List[Card] = []
 
         # euchre uses 9, 10, J, Q, K, A of all suits

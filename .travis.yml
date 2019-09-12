@@ -3,16 +3,18 @@ sudo: false
 language: python
 matrix:
   include:
-  - python: 3.6
-    env: TOXENV=py36
-  - python: 3.7
-    env: TOXENV=py37
-  - python: 3.8-dev
-    env: TOXENV=py38
+    - python: 3.6
+      env: TOXENV=py36
+    - python: 3.7
+      env: TOXENV=py37
+    - python: 3.8-dev
+      env: TOXENV=py38
 install:
-- pip install tox pipenv
-- pipenv install
-script: tox
+  - pip install tox pipenv
+  - pipenv install --dev
+script:
+  - tox
+  - archives gamble/
 deploy:
   provider: pypi
   user: jacobi

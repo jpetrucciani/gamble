@@ -1,5 +1,6 @@
 """
-models submodule for gamble
+@author jacobi petrucciani
+@desc models submodule for gamble
 """
 from gamble.models.dice import Die, Dice  # noqa
 from gamble.models.cards import Card, Deck, EuchreDeck, Hand  # noqa
