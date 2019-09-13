@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 """
-pip setup file
+@author jacobi petrucciani
+@desc pip setup file
 """
 from setuptools import setup, find_packages
 

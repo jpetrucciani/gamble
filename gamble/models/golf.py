@@ -98,6 +98,9 @@ class Group:
         @arg course: the course that this group is playing
         @arg players: the list of players in this group
         """
+        self.course = course
+        self.players = players
+        self.scores = []
 
 
 HOLES = [Hole(index + 1, x[0], x[1], x[2]) for index, x in enumerate(HCC_DATA)]
