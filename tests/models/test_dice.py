@@ -46,7 +46,6 @@ def test_dice_complex() -> None:
     assert dice.min == 9
     assert dice.parts
 
-
 def test_broken_die() -> None:
     """tests broken issues with the die class"""
     with pytest.raises(Exception):
@@ -62,3 +61,17 @@ def test_dice_rolls() -> None:
     assert len(rolls) == 2
     assert 1 <= rolls[0] <= 20
     assert 1 <= rolls[1] <= 20
+
+def test_dice_max_of() -> None:
+    """tests rolling the max of x dice"""
+    dice = Dice("d20")
+    assert dice.rolls == 0
+    assert not dice.bonuses
+
+    the_roll, rolls = dice.max_of(3)
+    assert dice.rolls == 3
+    assert len(rolls) == 3
+    assert 1 <= rolls[0] <= 20
+    assert 1 <= rolls[1] <= 20
+    assert 1 <= rolls[2] <= 20
+    assert the_roll == max(rolls)
