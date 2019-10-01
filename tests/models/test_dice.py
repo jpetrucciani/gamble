@@ -51,3 +51,14 @@ def test_broken_die() -> None:
     """tests broken issues with the die class"""
     with pytest.raises(Exception):
         Die(sides=1)
+
+def test_dice_rolls() -> None:
+    """tests multiple rolls of dice"""
+    dice = Dice("d20")
+    assert dice.rolls == 0
+
+    rolls = dice.roll_many(2)
+    assert dice.rolls == 2
+    assert len(rolls) == 2
+    assert 1 <= rolls[0] <= 20
+    assert 1 <= rolls[1] <= 20
