@@ -100,7 +100,7 @@ class Group:
         """
         self.course = course
         self.players = players
-        self.scores = []
+        self.scores = []  # type: ignore
 
 
 HOLES = [Hole(index + 1, x[0], x[1], x[2]) for index, x in enumerate(HCC_DATA)]
