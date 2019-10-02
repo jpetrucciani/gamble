@@ -3,7 +3,7 @@
 @desc die and dice submodule
 """
 import random
-from typing import List, Union
+from typing import List, Union, Tuple
 
 
 class Die:
@@ -206,3 +206,14 @@ class Dice:
         """
         rolls = [self.roll() for _ in range(0, num_rolls)]
         return rolls
+
+    def max_of(self, num_rolls: int = 2) -> Tuple[int, List[int]]:
+        """
+        @cc 1
+        @desc roll dice multiple times
+        @arg num_rolls: the number of times to roll the dice
+        @ret a tuple with the max value rolled by the dice, and the dice rolls
+        """
+        rolls = self.roll_many(num_rolls)
+        max_roll = max(rolls)
+        return max_roll, rolls
