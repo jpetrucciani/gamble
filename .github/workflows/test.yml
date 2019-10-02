@@ -3,12 +3,15 @@ name: test
 on: [push, pull_request]
 
 jobs:
-  build:
-
-    runs-on: ubuntu-latest
-    
+  archives:
+    runs-on: ubuntu-18.04
     steps:
-    - uses: actions/checkout@v1
-    - uses: jpetrucciani/archives-check@master
-      with:
-        path: 'gamble/'
+      - uses: actions/checkout@v1
+      - uses: jpetrucciani/archives-check@master
+        with:
+          path: 'gamble/'
+  prospector:
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v1
+      - uses: jpetrucciani/prospector-check@master

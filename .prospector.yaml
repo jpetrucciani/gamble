@@ -24,7 +24,7 @@ pylint:
   options:
     max-args: 10
     max-locals: 100
-    max-returns: 6
+    max-returns: 10
     max-branches: 50
     max-statements: 180
     max-parents: 10
@@ -67,6 +67,7 @@ pep257:
     - D105
     - D107
     - D200
+    - D202
     - D203
     - D205
     - D212

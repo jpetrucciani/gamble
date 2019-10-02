@@ -416,7 +416,7 @@ class Hand:
         @desc check if the hand is a flush
         @ret true if flush
         """
-        return len(set([x.suit.value for x in self.cards])) == 1
+        return len({x.suit.value for x in self.cards}) == 1
 
     @property
     def is_straight(self) -> bool:
