@@ -78,3 +78,19 @@ def test_dice_max_of() -> None:
     assert 1 <= rolls[1] <= 20
     assert 1 <= rolls[2] <= 20
     assert the_roll == max(rolls)
+
+
+def test_dice_min_of() -> None:
+    """tests rolling the min of x dice"""
+    dice = Dice("d20")
+    assert dice.rolls == 0
+    assert not dice.bonuses
+
+    the_roll, rolls = dice.min_of(4)
+    assert dice.rolls == 4
+    assert len(rolls) == 4
+    assert 1 <= rolls[0] <= 20
+    assert 1 <= rolls[1] <= 20
+    assert 1 <= rolls[2] <= 20
+    assert 1 <= rolls[3] <= 20
+    assert the_roll == min(rolls)

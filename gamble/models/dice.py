@@ -217,3 +217,14 @@ class Dice:
         rolls = self.roll_many(num_rolls)
         max_roll = max(rolls)
         return max_roll, rolls
+
+    def min_of(self, num_rolls: int = 2) -> Tuple[int, List[int]]:
+        """
+        @cc 1
+        @desc roll dice multiple times
+        @arg num_rolls: the number of times to roll the dice
+        @ret a tuple with the min value rolled by the dice, and the dice rolls
+        """
+        rolls = self.roll_many(num_rolls)
+        min_roll = min(rolls)
+        return min_roll, rolls
