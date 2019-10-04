@@ -83,6 +83,16 @@ Dice
    dice.parts
    >>> [<d20 Die>, 8]
 
+   # roll_many
+   dice.roll_many(2)
+   >>> [8, 4]
+
+   # max_of, min_of
+   dice.max_of(3)
+   >>> (11, [7, 3, 11])
+   dice.min_of(3)
+   >>> (2, [2, 9, 4])
+
 
 Cards
 ^^^^^
