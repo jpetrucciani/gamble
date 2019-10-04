@@ -114,30 +114,67 @@ class Die:
         return value * self.multiplier
 
 
+class RiggedDie(Die):
+    """
+    @desc a die with a modifier to roll in the top 3 per the percentage passed in
+    """
+
+    def __init__(self, sides: int = 6, rigged_factor: int = 50) -> None:
+        """
+        @cc 2
+        @desc create a new Rigged die
+        @arg sides: the number of sides to this die
+        @arg rigged_factor: int from 0-100 to manipulate the die into a high roll
+        """
+        self.rigged_factor = rigged_factor
+        if rigged_factor < 0 or rigged_factor > 100:
+            raise Exception(
+                "The rigged factor must be between 0 and 100must have at least 2 sides"
+            )
+
+        super().__init__(sides)
+
+    def roll(self) -> int:
+        """
+        @cc 2
+        @desc sometime override supers die roll depending on the rigged_factor
+        @ret the value rolled by this die
+        """
+        if random.randrange(101) <= self.rigged_factor:
+            value = [self.sides, self.sides - 1, self.sides - 2][random.randrange(3)]
+            self.rolls += 1
+            return value * self.multiplier
+        return super().roll()
+
+
 class Dice:
     """
     @desc a group of die objects
     """
 
-    def __init__(self, init_string: str = "2d6") -> None:
+    def __init__(self, init_string: str = "2d6", rigged_factor: int = 0) -> None:
         """
         @cc 2
         @desc create a new d notation group of dice
         @arg init_string: a d-notation string representing a set of dice
+        @arg rigged_factor: int from 0-100 to manipulate the die into a high roll
         """
         self.__d_string = init_string.strip().lower().replace("-", "+-")
         self.d_strings = [x.strip() for x in self.__d_string.split("+")]
-        self.dice: List[Die] = []
+        self.dice: List[Union[Die, RiggedDie]] = []
         self.bonuses: List[int] = []
+
         for d_string in self.d_strings:
             if "d" in d_string:
                 die_settings = [int(x) for x in d_string.split("d") if x]
                 if len(die_settings) == 1:
-                    self.dice.append(Die(die_settings[0]))
+                    self.dice.append(self.create_die(die_settings[0], rigged_factor))
                 elif len(die_settings) > 1:
                     num, value = die_settings
                     negative = -1 if num < 0 else 1
-                    self.dice.extend([Die(value * negative)] * abs(num))
+                    self.dice.extend(
+                        [self.create_die(value * negative, rigged_factor)] * abs(num)
+                    )
             else:
                 self.bonuses.append(int(d_string))
         self.dice = list(sorted(self.dice))
@@ -186,6 +223,18 @@ class Dice:
         @ret the min for these dice + bonuses
         """
         return sum([*[x.min for x in self.dice], *self.bonuses])
+
+    def create_die(self, sides: int, rigged_factor: int) -> Union[Die, RiggedDie]:
+        """
+        @cc 2
+        @arg sides: the number of sides on a die
+        @arg rigged_factor: int from 0-100 to manipulate the die into a high roll
+        @desc helper to create dice
+        @ret A Die object that can be rigged
+        """
+        if rigged_factor:
+            return RiggedDie(sides, rigged_factor)
+        return Die(sides)
 
     def roll(self) -> int:
         """
