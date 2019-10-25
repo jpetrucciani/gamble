@@ -9,15 +9,15 @@ from setuptools import setup, find_packages
 __library__ = "gamble"
 __version__ = "0.7"
 
-with open("README.rst") as readme:
+with open("README.md") as readme:
     LONG_DESCRIPTION = readme.read()
-
 
 setup(
     name=__library__,
     version=__version__,
     description=("a collection of gambling classes/tools"),
     long_description=LONG_DESCRIPTION,
+    long_description_content_type="text/markdown",
     author="Jacobi Petrucciani",
     author_email="jacobi@mimirhq.com",
     url="https://github.com/jpetrucciani/{}.git".format(__library__),
