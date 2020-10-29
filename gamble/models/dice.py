@@ -109,7 +109,7 @@ class Die:
         @desc roll the die
         @ret the value rolled by this die
         """
-        value = random.randrange(self.sides) + 1
+        value = random.randrange(self.sides) + 1  # nosec
         self.rolls += 1
         return value * self.multiplier
 
@@ -140,8 +140,10 @@ class RiggedDie(Die):
         @desc sometime override supers die roll depending on the rigged_factor
         @ret the value rolled by this die
         """
-        if random.randrange(101) <= self.rigged_factor:
-            value = [self.sides, self.sides - 1, self.sides - 2][random.randrange(3)]
+        if random.randrange(101) <= self.rigged_factor:  # nosec
+            value = [self.sides, self.sides - 1, self.sides - 2][
+                random.randrange(3)
+            ]  # nosec
             self.rolls += 1
             return value * self.multiplier
         return super().roll()
