@@ -7,7 +7,7 @@ from setuptools import setup, find_packages
 
 
 __library__ = "gamble"
-__version__ = "0.7"
+__version__ = "VERSION"
 
 with open("README.md") as readme:
     LONG_DESCRIPTION = readme.read()
@@ -29,6 +29,8 @@ setup(
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: Implementation :: CPython",
         "Programming Language :: Python :: Implementation :: PyPy",
     ],

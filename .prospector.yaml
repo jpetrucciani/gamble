@@ -50,6 +50,9 @@ pep8:
 vulture:
   run: false
 
+bandit:
+  run: true
+
 pyroma:
   run: false
   disable:
