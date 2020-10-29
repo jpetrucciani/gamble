@@ -1,10 +1,7 @@
 ---
 name: test
 
-on:
-  push:
-    tags-ignore:
-      - '*'
+on: [push]
 
 jobs:
   archives:
