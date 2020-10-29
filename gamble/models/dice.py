@@ -4,6 +4,7 @@
 """
 import random
 from typing import List, Union, Tuple
+from gamble.errors import GambleException
 
 
 class Die:
@@ -18,7 +19,7 @@ class Die:
         @arg sides: the number of sides to this die
         """
         if abs(int(sides)) < 2:
-            raise Exception("A die must have at least 2 sides")
+            raise GambleException("A die must have at least 2 sides")
         self.sides = abs(int(sides))
         self.negative = sides <= 0
         self.multiplier = -1 if self.negative else 1
@@ -121,16 +122,16 @@ class RiggedDie(Die):
 
     def __init__(self, sides: int = 6, rigged_factor: int = 50) -> None:
         """
-        @cc 2
+        @cc 3
         @desc create a new Rigged die
         @arg sides: the number of sides to this die
         @arg rigged_factor: int from 0-100 to manipulate the die into a high roll
         """
         self.rigged_factor = rigged_factor
         if rigged_factor < 0 or rigged_factor > 100:
-            raise Exception(
-                "The rigged factor must be between 0 and 100must have at least 2 sides"
-            )
+            raise GambleException("The rigged factor must be between 0 and 100")
+        if sides < 2:
+            raise GambleException("the die must have at least 2 sides")
 
         super().__init__(sides)
 
@@ -154,7 +155,7 @@ class Dice:
     @desc a group of die objects
     """
 
-    def __init__(self, init_string: str = "2d6", rigged_factor: int = 0) -> None:
+    def __init__(self, init_string: str = "2d6", rigged_factor: int = -1) -> None:
         """
         @cc 2
         @desc create a new d notation group of dice
@@ -170,13 +171,18 @@ class Dice:
             if "d" in d_string:
                 die_settings = [int(x) for x in d_string.split("d") if x]
                 if len(die_settings) == 1:
-                    self.dice.append(self.create_die(die_settings[0], rigged_factor))
+                    self.dice.append(
+                        self.create_die(die_settings[0], rigged_factor=rigged_factor)
+                    )
                 elif len(die_settings) > 1:
                     num, value = die_settings
                     negative = -1 if num < 0 else 1
                     self.dice.extend(
-                        [self.create_die(value * negative, rigged_factor)] * abs(num)
+                        [self.create_die(value * negative, rigged_factor=rigged_factor)]
+                        * abs(num)
                     )
+                else:
+                    raise GambleException("cannot create a die with no value!")
             else:
                 self.bonuses.append(int(d_string))
         self.dice = list(sorted(self.dice))
@@ -226,7 +232,7 @@ class Dice:
         """
         return sum([*[x.min for x in self.dice], *self.bonuses])
 
-    def create_die(self, sides: int, rigged_factor: int) -> Union[Die, RiggedDie]:
+    def create_die(self, sides: int, rigged_factor: int = -1) -> Union[Die, RiggedDie]:
         """
         @cc 2
         @arg sides: the number of sides on a die
@@ -234,7 +240,7 @@ class Dice:
         @desc helper to create dice
         @ret A Die object that can be rigged
         """
-        if rigged_factor:
+        if rigged_factor != -1:
             return RiggedDie(sides, rigged_factor)
         return Die(sides)
 
