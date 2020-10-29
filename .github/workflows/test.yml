@@ -41,6 +41,6 @@ jobs:
           python-version: ${{ matrix.python-version }}
           architecture: x64
       - name: install requirements
-        run: pip install tox pytest pytest-cov
+        run: pip install -r requirements.dev.txt
       - name: run Tox
         run: tox -e py

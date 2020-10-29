@@ -3,6 +3,7 @@ tests for the dice submodule of gamble
 """
 import pytest
 from gamble import Die, RiggedDie, Dice
+from gamble.errors import GambleException
 
 
 def test_die_init() -> None:
@@ -52,6 +53,13 @@ def test_dice_init() -> None:
     roll = dice.roll()
     assert 2 <= roll <= 12
     assert dice.rolls == 1
+
+    # test that you can't make just a 'd'
+    try:
+        dice = Dice("d")
+        assert False
+    except GambleException:
+        assert True
 
 
 def test_dice_complex() -> None:
