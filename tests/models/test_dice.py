@@ -139,3 +139,12 @@ def test_roll_rigged_die() -> None:
 
     the_roll, rolls = dice.max_of(100)
     assert max(rolls) == 20
+
+
+def test_dice_roll_each() -> None:
+    """tests rolling dice individually"""
+    dice = Dice("2d20")
+
+    rolls = dice.roll_each()
+    assert 1 <= rolls[0] <= 20
+    assert 1 <= rolls[1] <= 20

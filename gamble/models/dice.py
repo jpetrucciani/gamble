@@ -254,6 +254,15 @@ class Dice:
         rolls = [x.roll() for x in self.dice]
         return sum([*rolls, *self.bonuses])
 
+    def roll_each(self) -> int:
+        """
+        @cc 1
+        @desc roll each die individually
+        @ret list of values rolled by the dice
+        """
+        self.rolls += 1
+        return [x.roll() for x in self.dice]
+
     def roll_many(self, num_rolls: int = 2) -> List[int]:
         """
         @cc 1
