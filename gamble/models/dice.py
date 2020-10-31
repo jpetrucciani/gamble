@@ -5,6 +5,7 @@
 import random
 from typing import List, Union, Tuple
 from enum import Enum, auto
+import re
 from gamble.errors import GambleException
 
 
@@ -196,7 +197,7 @@ class Dice:
 
     def __init__(self, init_string: str = "2d6", rigged_factor: int = -1) -> None:
         """
-        @cc 2
+        @cc 3
         @desc create a new d notation group of dice
         @arg init_string: a d-notation string representing a set of dice
         @arg rigged_factor: int from 0-100 to manipulate the die into a high roll
@@ -208,22 +209,40 @@ class Dice:
 
         for d_string in self.d_strings:
             if "d" in d_string:
-                die_settings = [int(x) for x in d_string.split("d") if x]
+                die_settings = [x for x in re.split("d|k", d_string) if x]
                 if len(die_settings) == 1:
                     self.dice.append(
-                        self.create_die(die_settings[0], rigged_factor=rigged_factor)
+                        self.create_die(int(die_settings[0]), rigged_factor=rigged_factor)
                     )
                 elif len(die_settings) > 1:
-                    num, value = die_settings
-                    negative = -1 if num < 0 else 1
-                    self.dice.extend(
-                        [self.create_die(value * negative, rigged_factor=rigged_factor)]
-                        * abs(num)
-                    )
+                    if "k" in d_string:
+                        if len(die_settings) == 2:
+                            raise GambleException("cannot use selective dice notation with only one die!")
+                        num, value, select = die_settings
+                        negative = -1 if int(num) < 0 else 1
+                        selection = Selection.HIGH if "h" in select else Selection.LOW
+                        keep = re.split("h|l", select)[1]
+                        self.dice.append(
+                            SelectiveDice(
+                                [self.create_die(int(value) * negative, rigged_factor=rigged_factor)]
+                                * abs(int(num)),
+                                int(keep),
+                                selection
+                            )
+                        )
+                    else:
+                        num, value = die_settings
+                        negative = -1 if int(num) < 0 else 1
+                        self.dice.extend(
+                            [self.create_die(int(value) * negative, rigged_factor=rigged_factor)]
+                            * abs(int(num))
+                        )
                 else:
                     raise GambleException("cannot create a die with no value!")
-            else:
+            elif "k" not in d_string:
                 self.bonuses.append(int(d_string))
+            else:
+                raise GambleException("cannot use selective dice notation with a bonus!")
         self.dice = list(sorted(self.dice))
         self.bonuses = list(sorted(self.bonuses))
         self.rolls = 0
@@ -291,7 +310,7 @@ class Dice:
         """
         self.rolls += 1
         rolls = [x.roll() for x in self.dice]
-        return sum([*rolls, *self.bonuses])
+        return sum([*[x if type(x) is int else x[0] for x in rolls], *self.bonuses])
 
     def roll_each(self) -> int:
         """

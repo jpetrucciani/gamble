@@ -86,6 +86,12 @@ def test_broken_die() -> None:
     with pytest.raises(Exception):
         RiggedDie(6, -1)
 
+    with pytest.raises(Exception):
+        Dice("d20kh2")
+
+    with pytest.raises(Exception):
+        Dice("7kh1")
+
 
 def test_dice_rolls() -> None:
     """tests multiple rolls of dice"""
@@ -165,3 +171,12 @@ def test_selective_dice_roll() -> None:
     assert rolls[2] >= rolls[1]
     assert rolls[2] >= rolls[0]
     assert roll == sum(rolls[:2])
+
+
+def test_dice_with_selective_notation() -> None:
+    """tests rolling dice with selection"""
+    dice = Dice("3d6kl2")
+
+    roll = dice.roll()
+    assert 2 <= roll <= 12
+    
