@@ -4,6 +4,7 @@
 """
 import random
 from typing import List, Union, Tuple
+from enum import Enum, auto
 from gamble.errors import GambleException
 
 
@@ -148,6 +149,44 @@ class RiggedDie(Die):
             self.rolls += 1
             return value * self.multiplier
         return super().roll()
+
+
+class Selection(Enum):
+    """
+    @note indicate whether SelectiveDice should keep the high or low dice
+    """
+    HIGH = auto()
+    LOW = auto()
+
+
+class SelectiveDice:
+    """
+    @desc a group of die objects that drops some dice on roll
+    """
+
+    def __init__(self, dice: List[Union[Die, RiggedDie]] = [Die(6)], select: int = 1, keep: Selection = Selection.HIGH) -> None:
+        """
+        @cc 1
+        @desc create a group of dice where the highest / lowest X dice are kept
+        @arg dice: a list of Die objects
+        @arg select: number of dice to keep after roll
+        @arg keep: which rolls should be kept, HIGH or LOW
+        """
+
+        self.dice = dice
+        self.select = select
+        self.keep = keep
+        self.rolls = 0
+
+    def roll(self) -> int:
+        """
+        @cc 2
+        @desc roll the dice and select the desired set of rolls
+        @ret the value rolled by these dice
+        """
+        self.rolls += 1
+        rolls = sorted([x.roll() for x in self.dice], reverse=self.keep is Selection.HIGH)
+        return sum(rolls[:self.select]), rolls
 
 
 class Dice:

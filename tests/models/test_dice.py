@@ -2,7 +2,7 @@
 tests for the dice submodule of gamble
 """
 import pytest
-from gamble import Die, RiggedDie, Dice
+from gamble import Die, RiggedDie, Selection, SelectiveDice, Dice
 from gamble.errors import GambleException
 
 
@@ -148,3 +148,20 @@ def test_dice_roll_each() -> None:
     rolls = dice.roll_each()
     assert 1 <= rolls[0] <= 20
     assert 1 <= rolls[1] <= 20
+
+
+def test_selective_dice_roll() -> None:
+    """tests rolling selective dice"""
+    dice = Dice("3d6").dice
+    high_dice = SelectiveDice(dice, 2, Selection.HIGH)
+    low_dice = SelectiveDice(dice, 2, Selection.LOW)
+
+    roll, rolls = high_dice.roll()
+    assert rolls[2] <= rolls[1]
+    assert rolls[2] <= rolls[0]
+    assert roll == sum(rolls[:2])
+
+    roll, rolls = low_dice.roll()
+    assert rolls[2] >= rolls[1]
+    assert rolls[2] >= rolls[0]
+    assert roll == sum(rolls[:2])
