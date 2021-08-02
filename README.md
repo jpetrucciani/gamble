@@ -1,4 +1,3 @@
-[![image](https://travis-ci.org/jpetrucciani/gamble.svg?branch=master)](https://travis-ci.org/jpetrucciani/gamble)
 [![PyPI
 version](https://badge.fury.io/py/gamble.svg)](https://badge.fury.io/py/gamble)
 [![Code style:
