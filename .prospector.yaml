@@ -20,6 +20,7 @@ pylint:
     - no-self-use
     - unused-argument
     - wrong-import-order
+    - unsubscriptable-object
 
   options:
     max-args: 10
