@@ -9,6 +9,8 @@ from setuptools import setup, find_packages
 __library__ = "gamble"
 __version__ = "VERSION"
 
+__user__ = "https://github.com/jpetrucciani"
+
 with open("README.md") as readme:
     LONG_DESCRIPTION = readme.read()
 
@@ -20,8 +22,8 @@ setup(
     long_description_content_type="text/markdown",
     author="Jacobi Petrucciani",
     author_email="j@cobi.dev",
-    url="https://github.com/jpetrucciani/{}.git".format(__library__),
-    download_url="https://github.com/jpetrucciani/{}.git".format(__library__),
+    url=f"{__user__}/{__library__}.git",
+    download_url=f"{__user__}/{__library__}.git",
     license="MIT",
     packages=find_packages(),
     install_requires=[],
