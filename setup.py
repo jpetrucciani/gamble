@@ -11,7 +11,7 @@ __version__ = "VERSION"
 
 __user__ = "https://github.com/jpetrucciani"
 
-with open("README.md") as readme:
+with open("README.md", "r", encoding="UTF-8") as readme:
     LONG_DESCRIPTION = readme.read()
 
 setup(
