@@ -31,7 +31,7 @@ class Die:
         @desc dunder str method
         @ret the string representation of this die
         """
-        return "<{}d{} Die>".format("-" if self.negative else "", self.sides)
+        return f"<{'-' if self.negative else ''}d{self.sides} Die>"
 
     def __repr__(self) -> str:
         """
@@ -195,7 +195,8 @@ class Dice:
         @desc dunder str method
         @ret the string representation of this set of dice
         """
-        return "{{\n{}\n}}".format("\n".join([str(x) for x in self.parts]))
+        dice_string = "\n".join([str(x) for x in self.parts])
+        return f"{{\n{dice_string}\n}}"
 
     def __repr__(self) -> str:
         """

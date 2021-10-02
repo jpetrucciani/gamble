@@ -167,7 +167,7 @@ class Card:
         @desc returns the full name for this card
         @ret the full name of this card
         """
-        return "{} of {}".format(self.value.name, self.suit.name)
+        return f"{self.value.name} of {self.suit.name}"
 
     @property
     def is_black(self) -> bool:
@@ -204,7 +204,7 @@ class Card:
         @desc string representation of this card
         @ret a string of this card
         """
-        return "{}{}".format(self.value.char, self.suit.symbol)
+        return f"{self.value.char}{self.suit.symbol}"
 
     def __repr__(self) -> str:
         """
@@ -212,7 +212,7 @@ class Card:
         @desc representation of this card
         @ret a repr of this card
         """
-        return "<Card:{}>".format(str(self))
+        return f"<Card:{str(self)}>"
 
     def __lt__(self, other: "Card") -> bool:
         """
@@ -326,7 +326,7 @@ class Hand:
         @desc string representation of the hand
         @ret this hand as a string
         """
-        return "[{}]".format(", ".join([str(x) for x in self.cards]))
+        return f"[{', '.join([str(x) for x in self.cards])}]"
 
     def __repr__(self) -> str:
         """
@@ -334,7 +334,7 @@ class Hand:
         @desc repr of the hand
         @ret this hand as repr
         """
-        return "<Hand[{}]({}) {}>".format(self.size, self.rank.name, str(self))
+        return f"<Hand[{self.size}]({self.rank.name}) {str(self)}>"
 
     @classmethod
     def get(cls, text: str) -> "Hand":
@@ -512,7 +512,7 @@ class Deck:
         @desc string representation of a deck
         @ret a string representation of this deck
         """
-        return "<Deck[{}]>".format(self.cards_left)
+        return f"<Deck[{self.cards_left}]>"
 
     def __repr__(self) -> str:
         """
