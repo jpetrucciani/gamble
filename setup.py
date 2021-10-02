@@ -19,7 +19,7 @@ setup(
     long_description=LONG_DESCRIPTION,
     long_description_content_type="text/markdown",
     author="Jacobi Petrucciani",
-    author_email="jacobi@mimirhq.com",
+    author_email="j@cobi.dev",
     url="https://github.com/jpetrucciani/{}.git".format(__library__),
     download_url="https://github.com/jpetrucciani/{}.git".format(__library__),
     license="MIT",
