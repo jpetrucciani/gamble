@@ -271,7 +271,7 @@ class Hand:
         """
         @desc hand ranks for poker
         """
-
+        ROYAL_FLUSH = Rank(value=9, name='royal flush')
         STRAIGHT_FLUSH = Rank(value=8, name="straight flush")
         FOUR_OF_A_KIND = Rank(value=7, name="four of a kind")
         FULL_HOUSE = Rank(value=6, name="full house")
@@ -355,6 +355,8 @@ class Hand:
         @desc get the rank of this hand
         @ret a rank object representing the rank of this hand
         """
+        if self.is_royal_flush:
+            return Hand.Ranks.ROYAL_FLUSH
         if self.is_straight_flush:
             return Hand.Ranks.STRAIGHT_FLUSH
         if self.is_four_of_a_kind:
@@ -383,13 +385,24 @@ class Hand:
         return sorted(list(self.value_counts.values()), reverse=True)
 
     @property
+    def is_royal_flush(self) -> bool:
+        """
+        @cc 1
+        @desc check if the hand is a royal flush
+        @ret true if royal flush
+        """
+        return self.is_flush and self.is_straight \
+            and self.cards[0].value == Card.Values.ACE \
+            and self.cards[-1].value == Card.Values.KING
+
+    @property
     def is_straight_flush(self) -> bool:
         """
         @cc 1
         @desc check if the hand is a straight flush
         @ret true if straight flush
         """
-        return self.is_flush and self.is_straight
+        return self.is_flush and self.is_straight and not self.is_royal_flush
 
     @property
     def is_four_of_a_kind(self) -> bool:

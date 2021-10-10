@@ -118,9 +118,12 @@ def test_hand_ranks() -> None:
 
     low_straight_flush = Hand.get("As,2s,3s,4s,5s")
     assert low_straight_flush.rank == Hand.Ranks.STRAIGHT_FLUSH
+    assert low_straight_flush.is_straight_flush
 
     high_straight_flush = Hand.get("As,Ts,Js,Qs,Ks")
-    assert high_straight_flush.rank == Hand.Ranks.STRAIGHT_FLUSH
+    # assert high_straight_flush.rank == Hand.Ranks.STRAIGHT_FLUSH
+    assert high_straight_flush.rank == Hand.Ranks.ROYAL_FLUSH
+    assert high_straight_flush.is_royal_flush
 
     assert two_pair > one_pair
-    assert high_card < high_straight_flush
+    assert low_straight_flush < high_straight_flush
