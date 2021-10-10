@@ -271,7 +271,8 @@ class Hand:
         """
         @desc hand ranks for poker
         """
-        ROYAL_FLUSH = Rank(value=9, name='royal flush')
+
+        ROYAL_FLUSH = Rank(value=9, name="royal flush")
         STRAIGHT_FLUSH = Rank(value=8, name="straight flush")
         FOUR_OF_A_KIND = Rank(value=7, name="four of a kind")
         FULL_HOUSE = Rank(value=6, name="full house")
@@ -351,7 +352,7 @@ class Hand:
     @property
     def rank(self) -> Rank:
         """
-        @cc 9
+        @cc 10
         @desc get the rank of this hand
         @ret a rank object representing the rank of this hand
         """
@@ -391,9 +392,12 @@ class Hand:
         @desc check if the hand is a royal flush
         @ret true if royal flush
         """
-        return self.is_flush and self.is_straight \
-            and self.cards[0].value == Card.Values.ACE \
+        return (
+            self.is_flush
+            and self.is_straight
+            and self.cards[0].value == Card.Values.ACE
             and self.cards[-1].value == Card.Values.KING
+        )
 
     @property
     def is_straight_flush(self) -> bool:
