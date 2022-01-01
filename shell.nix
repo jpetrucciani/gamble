@@ -2,17 +2,20 @@ let
   nixpkgs = import
     (
       fetchTarball {
-        name = "nixos-unstable-2021-08-31";
-        url = "https://github.com/NixOS/nixpkgs/archive/cb021898fab2a19e75d4e10c10c1da69c4e9f331.tar.gz";
-        sha256 = "1hxpp44bg1gwfzcd570wqfvd6am4vk52938zqcwy7mxwjmk6wbrh";
+        name = "nixos-unstable-2021-12-31";
+        url = "https://github.com/NixOS/nixpkgs/archive/ba4fa46ea1204a31fa57a23503182af799ec70ca.tar.gz";
+        sha256 = "06x57dqlxn17r38f90gnnnmhklp2fcgm46vch2frzb1lc8aq1zz0";
       }
     )
     { };
   mach-nix = import
-    (builtins.fetchGit {
-      url = "https://github.com/DavHau/mach-nix/";
-      ref = "refs/tags/3.3.0";
-    })
+    (
+      fetchTarball {
+        name = "mach-nix-2021-12-31";
+        url = "https://github.com/DavHau/mach-nix/archive/31b21203a1350bff7c541e9dfdd4e07f76d874be.tar.gz";
+        sha256 = "0przsgmbbcnnqdff7n43zv5girix83ky4mjlxq7m2ksr3wyj2va2";
+      }
+    )
     {
       pkgs = nixpkgs;
       python = "python39";
