@@ -1,5 +1,4 @@
 archives
-bpython
 pytest
 pytest-cov
 tox
