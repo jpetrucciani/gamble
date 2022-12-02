@@ -5,7 +5,7 @@
 import random
 from collections import Counter
 from types import SimpleNamespace
-from typing import Any, Dict, List, Union
+from typing import Any, Dict, List, Optional, Union
 from gamble.errors import InvalidCard
 
 
@@ -491,7 +491,9 @@ class Deck:
     @desc playing card deck model
     """
 
-    def __init__(self, cards: List[Card] = None, shuffle: bool = True) -> None:
+    def __init__(
+        self, cards: Optional[List[Card]] = None, shuffle: bool = True
+    ) -> None:
         """
         @cc 3
         @desc deck constructor
@@ -608,7 +610,7 @@ class EuchreDeck(Deck):
     @desc deck specifically for euchre
     """
 
-    def __init__(self, **kwargs: Any) -> None:
+    def __init__(self, **_: Any) -> None:
         """
         @cc 2
         @desc euchre deck constructor

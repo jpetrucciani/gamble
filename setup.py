@@ -8,8 +8,8 @@ from setuptools import setup, find_packages
 
 __library__ = "gamble"
 __version__ = "VERSION"
-
 __user__ = "https://github.com/jpetrucciani"
+
 
 with open("README.md", "r", encoding="UTF-8") as readme:
     LONG_DESCRIPTION = readme.read()
@@ -29,11 +29,11 @@ setup(
     install_requires=[],
     classifiers=[
         "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
+        "Programming Language :: Python :: 3.11",
         "Programming Language :: Python :: Implementation :: CPython",
         "Programming Language :: Python :: Implementation :: PyPy",
     ],

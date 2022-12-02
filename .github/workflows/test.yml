@@ -22,7 +22,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: jpetrucciani/prospector-check@master
+      - uses: jpetrucciani/prospector-check@jacobi_update_prospector
   mypy:
     runs-on: ubuntu-latest
     steps:
@@ -38,7 +38,7 @@ jobs:
     needs: [archives, mypy, prospector, black]
     strategy:
       matrix:
-        python-version: ['3.6', '3.7', '3.8', '3.9', '3.10']
+        python-version: ['3.7', '3.8', '3.9', '3.10', '3.11']
     name: python ${{ matrix.python-version }} tests
     steps:
       - uses: actions/checkout@v2

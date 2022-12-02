@@ -1,11 +1,9 @@
 { jacobi ? import
-    (
-      fetchTarball {
-        name = "jpetrucciani-2022-08-17";
-        url = "https://github.com/jpetrucciani/nix/archive/93ad4046a5fe9924282af9c56dc88012d8b5315e.tar.gz";
-        sha256 = "1ps5d55qvmh66n3xlmm1avsczl6xz82xic2n3vqrd1aj31kzdkm3";
-      }
-    )
+    (fetchTarball {
+      name = "jacobi-2022-12-01";
+      url = "https://nix.cobi.dev/x/15e5cfd7927420eddc8d822e2dc0ee32908c850b";
+      sha256 = "139k9dnqb5k1n7r1i6hk7vfiy9nmmla4hdvczi14sa4lv7grg7aq";
+    })
     { }
 }:
 let
@@ -33,6 +31,9 @@ let
     scripts = [
       (writeShellScriptBin "test_actions" ''
         ${jacobi.act}/bin/act --artifact-server-path ./.cache/ -r --rm
+      '')
+      (writeShellScriptBin "prospector" ''
+        ${prospector}/bin/prospector $@
       '')
     ];
   };

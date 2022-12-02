@@ -10,18 +10,6 @@ ignore-patterns:
   - tmp\.py
 
 pylint:
-  disable:
-    - bad-continuation
-    - broad-except
-    - import-error
-    - import-self
-    - logging-format-interpolation
-    - missing-docstring
-    - no-self-use
-    - unused-argument
-    - wrong-import-order
-    - unsubscriptable-object
-
   options:
     max-args: 10
     max-locals: 100
@@ -43,6 +31,7 @@ pycodestyle:
   disable:
     - N802
     - N807
+    - N818
     - W503
   options:
     max-line-length: 100
@@ -56,9 +45,6 @@ bandit:
 
 pyroma:
   run: false
-  disable:
-    - PYR19
-    - PYR16
 
 pydocstyle:
   disable:
