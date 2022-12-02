@@ -30,7 +30,8 @@ let
     ];
     scripts = [
       (writeShellScriptBin "test_actions" ''
-        ${jacobi.act}/bin/act --artifact-server-path ./.cache/ -r --rm
+        export DOCKER_HOST=$(${jacobi.docker-client}/bin/docker context inspect --format '{{.Endpoints.docker.Host}}')
+        ${jacobi.act}/bin/act --container-architecture linux/amd64 -r --rm
       '')
       (writeShellScriptBin "prospector" ''
         ${prospector}/bin/prospector $@

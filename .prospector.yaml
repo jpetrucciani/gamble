@@ -68,3 +68,8 @@ pydocstyle:
     - D404
     - D403
     - D415
+
+pyflakes:
+  disable:
+    - F401
+    - F403
