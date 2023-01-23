@@ -43,7 +43,7 @@ jobs:
     needs: [archives, mypy, prospector, black, ruff]
     strategy:
       matrix:
-        python-version: ['3.9', '3.10', '3.11']
+        python-version: ['3.10', '3.11']
     name: python ${{ matrix.python-version }} tests
     steps:
       - uses: actions/checkout@v2
