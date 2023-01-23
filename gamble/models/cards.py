@@ -5,7 +5,7 @@
 import random
 from collections import Counter
 from types import SimpleNamespace
-from typing import Any, Dict, List, Optional, Union
+from typing import Any
 from gamble.errors import InvalidCard
 
 
@@ -40,21 +40,13 @@ class Card:
         @desc card suit enum
         """
 
-        SPADES = Suit(
-            name="spades", char="S", symbol="♠", value=0, color=0, unicode=127136
-        )
-        CLUBS = Suit(
-            name="clubs", char="C", symbol="♣", value=1, color=0, unicode=127184
-        )
-        DIAMONDS = Suit(
-            name="diamonds", char="D", symbol="♦", value=2, color=1, unicode=127168
-        )
-        HEARTS = Suit(
-            name="hearts", char="H", symbol="♥", value=3, color=1, unicode=127152
-        )
+        SPADES = Suit(name="spades", char="S", symbol="♠", value=0, color=0, unicode=127136)
+        CLUBS = Suit(name="clubs", char="C", symbol="♣", value=1, color=0, unicode=127184)
+        DIAMONDS = Suit(name="diamonds", char="D", symbol="♦", value=2, color=1, unicode=127168)
+        HEARTS = Suit(name="hearts", char="H", symbol="♥", value=3, color=1, unicode=127152)
 
         @classmethod
-        def all(cls) -> List[Suit]:
+        def all(cls) -> list[Suit]:
             """
             @cc 1
             @desc get all suits in this enum
@@ -70,7 +62,7 @@ class Card:
             )
 
         @classmethod
-        def dict(cls) -> Dict[str, Suit]:
+        def dict(cls) -> dict[str, Suit]:
             """
             @cc 1
             @desc dict of char -> Suit
@@ -98,7 +90,7 @@ class Card:
         KING = Value(char="K", name="king", value=13)
 
         @classmethod
-        def all(cls) -> List[Value]:
+        def all(cls) -> list[Value]:
             """
             @cc 1
             @desc get all suits
@@ -114,7 +106,7 @@ class Card:
             )
 
         @classmethod
-        def dict(cls) -> Dict[str, Value]:
+        def dict(cls) -> dict[str, Value]:
             """
             @cc 1
             @desc dict of char -> Value
@@ -283,7 +275,7 @@ class Hand:
         PAIR = Rank(value=1, name="pair")
         HIGH_CARD = Rank(value=0, name="high card")
 
-    def __init__(self, cards: List[Card]) -> None:
+    def __init__(self, cards: list[Card]) -> None:
         """
         @cc 1
         @desc hand constructor
@@ -377,13 +369,13 @@ class Hand:
         return Hand.Ranks.HIGH_CARD
 
     @property
-    def _vals(self) -> List[int]:
+    def _vals(self) -> list[int]:
         """
         @cc 1
         @desc values helper to make the following checks less verbose
         @ret a sorted list of all cards in this hand
         """
-        return sorted(list(self.value_counts.values()), reverse=True)
+        return sorted(self.value_counts.values(), reverse=True)
 
     @property
     def is_royal_flush(self) -> bool:
@@ -455,7 +447,7 @@ class Hand:
 
         values = [x.value.value for x in self.cards]
         low_ace = set(values)
-        high_ace = set(x if x != 1 else 14 for x in values)
+        high_ace = {x if x != 1 else 14 for x in values}
         return check(low_ace) or check(high_ace)
 
     @property
@@ -491,9 +483,7 @@ class Deck:
     @desc playing card deck model
     """
 
-    def __init__(
-        self, cards: Optional[List[Card]] = None, shuffle: bool = True
-    ) -> None:
+    def __init__(self, cards: list[Card] | None = None, shuffle: bool = True) -> None:
         """
         @cc 3
         @desc deck constructor
@@ -568,7 +558,7 @@ class Deck:
         """
         return len(self.cards)
 
-    def draw(self, times: int = 1) -> Union[Card, List[Card]]:
+    def draw(self, times: int = 1) -> Card | list[Card]:
         """
         @cc 3
         @desc draws the given number of cards from the deck
@@ -615,7 +605,7 @@ class EuchreDeck(Deck):
         @cc 2
         @desc euchre deck constructor
         """
-        cards: List[Card] = []
+        cards: list[Card] = []
 
         # euchre uses 9, 10, J, Q, K, A of all suits
         values = [x for x in Card.Values.all() if x.value >= 9 or x.value == 1]

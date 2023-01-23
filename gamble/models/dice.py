@@ -3,7 +3,6 @@
 @desc die and dice submodule
 """
 import random
-from typing import List, Union, Tuple
 from gamble.errors import GambleException
 
 
@@ -142,9 +141,7 @@ class RiggedDie(Die):
         @ret the value rolled by this die
         """
         if random.randrange(101) <= self.rigged_factor:  # nosec
-            value = [self.sides, self.sides - 1, self.sides - 2][
-                random.randrange(3)
-            ]  # nosec
+            value = [self.sides, self.sides - 1, self.sides - 2][random.randrange(3)]  # nosec
             self.rolls += 1
             return value * self.multiplier
         return super().roll()
@@ -164,29 +161,26 @@ class Dice:
         """
         self.__d_string = init_string.strip().lower().replace("-", "+-")
         self.d_strings = [x.strip() for x in self.__d_string.split("+")]
-        self.dice: List[Union[Die, RiggedDie]] = []
-        self.bonuses: List[int] = []
+        self.dice: list[Die | RiggedDie] = []
+        self.bonuses: list[int] = []
 
         for d_string in self.d_strings:
             if "d" in d_string:
                 die_settings = [int(x) for x in d_string.split("d") if x]
                 if len(die_settings) == 1:
-                    self.dice.append(
-                        self.create_die(die_settings[0], rigged_factor=rigged_factor)
-                    )
+                    self.dice.append(self.create_die(die_settings[0], rigged_factor=rigged_factor))
                 elif len(die_settings) > 1:
                     num, value = die_settings
                     negative = -1 if num < 0 else 1
                     self.dice.extend(
-                        [self.create_die(value * negative, rigged_factor=rigged_factor)]
-                        * abs(num)
+                        [self.create_die(value * negative, rigged_factor=rigged_factor)] * abs(num)
                     )
                 else:
                     raise GambleException("cannot create a die with no value!")
             else:
                 self.bonuses.append(int(d_string))
-        self.dice = list(sorted(self.dice))
-        self.bonuses = list(sorted(self.bonuses))
+        self.dice = sorted(self.dice)
+        self.bonuses = sorted(self.bonuses)
         self.rolls = 0
 
     def __str__(self) -> str:
@@ -207,7 +201,7 @@ class Dice:
         return self.__str__()
 
     @property
-    def parts(self) -> List[Union[Die, int]]:
+    def parts(self) -> list[Die | int]:
         """
         @cc 1
         @desc listing of the parts of this roll + bonuses
@@ -233,7 +227,7 @@ class Dice:
         """
         return sum([*[x.min for x in self.dice], *self.bonuses])
 
-    def create_die(self, sides: int, rigged_factor: int = -1) -> Union[Die, RiggedDie]:
+    def create_die(self, sides: int, rigged_factor: int = -1) -> Die | RiggedDie:
         """
         @cc 2
         @arg sides: the number of sides on a die
@@ -255,17 +249,16 @@ class Dice:
         rolls = [x.roll() for x in self.dice]
         return sum([*rolls, *self.bonuses])
 
-    def roll_many(self, num_rolls: int = 2) -> List[int]:
+    def roll_many(self, num_rolls: int = 2) -> list[int]:
         """
         @cc 1
         @desc roll dice multiple times
         @arg num_rolls: the number of times to roll the dice
         @ret list of values rolled by these dice
         """
-        rolls = [self.roll() for _ in range(0, num_rolls)]
-        return rolls
+        return [self.roll() for _ in range(0, num_rolls)]
 
-    def max_of(self, num_rolls: int = 2) -> Tuple[int, List[int]]:
+    def max_of(self, num_rolls: int = 2) -> tuple[int, list[int]]:
         """
         @cc 1
         @desc roll dice multiple times
@@ -276,7 +269,7 @@ class Dice:
         max_roll = max(rolls)
         return max_roll, rolls
 
-    def min_of(self, num_rolls: int = 2) -> Tuple[int, List[int]]:
+    def min_of(self, num_rolls: int = 2) -> tuple[int, list[int]]:
         """
         @cc 1
         @desc roll dice multiple times

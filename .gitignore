@@ -5,8 +5,8 @@ nosetests.xml
 .coverage
 .mypy_cache
 .pytest_cache
+.ruff_cache
 tmp.py
-
 
 # Created by https://www.gitignore.io/api/python
 

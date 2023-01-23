@@ -2,7 +2,6 @@
 @author jacobi petrucciani
 @desc golf related games
 """
-from typing import List
 
 
 YARDS = (
@@ -27,7 +26,7 @@ YARDS = (
 )
 PAR = (4, 4, 4, 3, 4, 5, 4, 4, 4, 5, 4, 3, 4, 4, 4, 4, 3, 4)
 HANDICAP = (15, 3, 5, 17, 1, 9, 11, 7, 13, 6, 16, 18, 2, 14, 8, 4, 12, 10)
-HCC_DATA = zip(YARDS, PAR, HANDICAP)
+HCC_DATA = zip(YARDS, PAR, HANDICAP, strict=True)
 
 
 class Hole:
@@ -55,7 +54,7 @@ class Course:
     @desc a golf course object
     """
 
-    def __init__(self, name: str, holes: List[Hole]) -> None:
+    def __init__(self, name: str, holes: list[Hole]) -> None:
         """
         @cc 1
         @desc course constructor
@@ -91,7 +90,7 @@ class Group:
     @desc a golf group object
     """
 
-    def __init__(self, course: Course, players: List[Player]) -> None:
+    def __init__(self, course: Course, players: list[Player]) -> None:
         """
         @cc 1
         @desc group constructor

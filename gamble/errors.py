@@ -2,6 +2,7 @@
 @author jacobi petrucciani
 @desc custom exceptions and error handling
 """
+from typing import Any
 
 
 class GambleException(Exception):  # pragma: no cover
@@ -9,7 +10,7 @@ class GambleException(Exception):  # pragma: no cover
     @desc base gamble exception class
     """
 
-    def __init__(self, *args, **kwargs) -> None:  # type: ignore
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
         """
         @cc 2
         @desc exception constructor
