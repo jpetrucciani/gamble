@@ -1,5 +1,11 @@
 [project]
 name = "gamble"
+version = "0.12"
+description = "a collection of gambling classes/tools"
+license = "MIT"
+authors = [
+    "jacobi petrucciani <j@cobi.dev>"
+]
 
 [tool.black]
 line-length = 100
