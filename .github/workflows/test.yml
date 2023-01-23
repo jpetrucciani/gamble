@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v2
-      - uses: jpetrucciani/archives-check@master
+      - uses: jpetrucciani/archives-check@main
         with:
           path: 'gamble/'
   prospector:
@@ -37,7 +37,7 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v2
-      - uses: jpetrucciani/ruff-check@master
+      - uses: jpetrucciani/ruff-check@main
   tests:
     runs-on: ubuntu-22.04
     needs: [archives, mypy, prospector, black, ruff]
