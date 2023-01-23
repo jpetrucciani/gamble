@@ -1,14 +1,12 @@
 { jacobi ? import
     (fetchTarball {
-      name = "jacobi-2022-12-01";
-      url = "https://nix.cobi.dev/x/15e5cfd7927420eddc8d822e2dc0ee32908c850b";
-      sha256 = "139k9dnqb5k1n7r1i6hk7vfiy9nmmla4hdvczi14sa4lv7grg7aq";
+      name = "jpetrucciani-2023-01-23";
+      url = "https://github.com/jpetrucciani/nix/archive/4d8e4081fd11f83219ee9e7c5c0d91c0f9f6eb0c.tar.gz";
+      sha256 = "12jrlj8r42p7yavhrkn0q3rnfrg313h60ck8447c3zq7fi14kf4p";
     })
     { }
 }:
 let
-  inherit (jacobi.hax) ifIsLinux ifIsDarwin;
-
   name = "gamble";
   tools = with jacobi; {
     cli = [
@@ -16,16 +14,14 @@ let
       nixpkgs-fmt
     ];
     python = [
+      ruff
       (python310.withPackages (p: with p; [
-        requests
-
         # dev
         colorama
         pytest
         pytest-cov
         setuptools
         tox
-        types-requests
       ]))
     ];
     scripts = [
@@ -39,8 +35,11 @@ let
     ];
   };
 
-  env = jacobi.enviro {
-    inherit name tools;
-  };
+  env = let paths = jacobi._toolset tools; in
+    jacobi.buildEnv {
+      inherit name;
+      buildInputs = paths;
+      paths = paths;
+    };
 in
 env

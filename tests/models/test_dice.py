@@ -57,7 +57,7 @@ def test_dice_init() -> None:
     # test that you can't make just a 'd'
     try:
         dice = Dice("d")
-        assert False
+        raise AssertionError()
     except GambleException:
         assert True
 
@@ -70,20 +70,18 @@ def test_dice_complex() -> None:
     assert dice.max == 28
     assert dice.min == 9
     assert dice.parts
-    assert all(
-        [die.rigged_factor == 100 for die in dice.dice if isinstance(die, RiggedDie)]
-    )
+    assert all([die.rigged_factor == 100 for die in dice.dice if isinstance(die, RiggedDie)])
 
 
 def test_broken_die() -> None:
     """tests broken issues with the die class"""
-    with pytest.raises(Exception):
+    with pytest.raises(GambleException):
         Die(sides=1)
 
-    with pytest.raises(Exception):
+    with pytest.raises(GambleException):
         RiggedDie(6, 1000)
 
-    with pytest.raises(Exception):
+    with pytest.raises(GambleException):
         RiggedDie(6, -1)
 
 
