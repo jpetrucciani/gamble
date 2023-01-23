@@ -17,7 +17,7 @@ with open("README.md", encoding="UTF-8") as readme:
 setup(
     name=__library__,
     version=__version__,
-    description=("a collection of gambling classes/tools"),
+    description="a collection of gambling classes/tools",
     long_description=LONG_DESCRIPTION,
     long_description_content_type="text/markdown",
     author="Jacobi Petrucciani",

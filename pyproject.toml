@@ -2,9 +2,29 @@
 name = "gamble"
 version = "0.12"
 description = "a collection of gambling classes/tools"
-license = "MIT"
+readme = "README.md"
 authors = [
-    "jacobi petrucciani <j@cobi.dev>"
+    {name = "jacobi petrucciani", email = "j@cobi.dev"}
+]
+dependencies = []
+requires-python = ">=3.9"
+
+classifiers=[
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Programming Language :: Python :: Implementation :: PyPy",
+    "License :: OSI Approved :: MIT License",
+]
+
+[project.optional-dependencies]
+dev = [
+    "archives",
+    "black",
+    "pytest",
+    "pytest-cov",
 ]
 
 [tool.black]
