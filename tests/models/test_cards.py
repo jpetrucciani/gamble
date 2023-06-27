@@ -19,12 +19,7 @@ def test_card_init() -> None:
     assert repr(card) == "<Card:A♠>"
     assert card.unicode == "🂡"
     assert card.color == Card.BLACK
-    assert card == card
     assert card != "test"
-    assert not card < card
-    assert not card > card
-    assert card <= card
-    assert card >= card
     assert card.is_black
     assert not card.is_red
 

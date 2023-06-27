@@ -204,7 +204,7 @@ class Card:
         @desc representation of this card
         @ret a repr of this card
         """
-        return f"<Card:{str(self)}>"
+        return f"<Card:{self}>"
 
     def __lt__(self, other: "Card") -> bool:
         """
@@ -327,7 +327,7 @@ class Hand:
         @desc repr of the hand
         @ret this hand as repr
         """
-        return f"<Hand[{self.size}]({self.rank.name}) {str(self)}>"
+        return f"<Hand[{self.size}]({self.rank.name}) {self}>"
 
     @classmethod
     def get(cls, text: str) -> "Hand":
@@ -342,7 +342,7 @@ class Hand:
         return cls(cards=cards)
 
     @property
-    def rank(self) -> Rank:
+    def rank(self) -> Rank:  # noqa: PLR0911
         """
         @cc 10
         @desc get the rank of this hand

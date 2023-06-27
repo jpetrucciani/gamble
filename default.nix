@@ -1,22 +1,21 @@
-{ jacobi ? import
+{ pkgs ? import
     (fetchTarball {
-      name = "jpetrucciani-2023-01-23";
-      url = "https://github.com/jpetrucciani/nix/archive/017005177512bb0374f93c9ad7ede35d807f0c3b.tar.gz";
-      sha256 = "0b1bp01rz748i9iq3f28ny2xa06wglh00qm1zb0m8v41c0w19ahv";
+      name = "jpetrucciani-2023-06-26";
+      url = "https://github.com/jpetrucciani/nix/archive/cfbb79b2245dcc3d06f6bd80892d346363a8b9e5.tar.gz";
+      sha256 = "15wa55yhmv3hfsx29zabg6q5sqy9y3xrxy7w0dlrzfpkpy6xk56n";
     })
     { }
 }:
 let
   name = "gamble";
-  tools = with jacobi; {
+
+  tools = with pkgs; {
     cli = [
-      jq
       nixpkgs-fmt
     ];
     python = [
       ruff
-      (python310.withPackages (p: with p; [
-        # dev
+      (python311.withPackages (p: with p; [
         colorama
         pytest
         pytest-cov
@@ -26,20 +25,15 @@ let
     ];
     scripts = [
       (writeShellScriptBin "test_actions" ''
-        export DOCKER_HOST=$(${jacobi.docker-client}/bin/docker context inspect --format '{{.Endpoints.docker.Host}}')
-        ${jacobi.act}/bin/act --container-architecture linux/amd64 -r --rm
-      '')
-      (writeShellScriptBin "prospector" ''
-        ${prospector}/bin/prospector $@
+        export DOCKER_HOST=$(${pkgs.docker-client}/bin/docker context inspect --format '{{.Endpoints.docker.Host}}')
+        ${pkgs.act}/bin/act --container-architecture linux/amd64 -r --rm
       '')
     ];
   };
 
-  env = let paths = jacobi._toolset tools; in
-    jacobi.buildEnv {
-      inherit name;
-      buildInputs = paths;
-      paths = paths;
-    };
+  paths = pkgs.lib.flatten [ (builtins.attrValues tools) ];
 in
-env
+pkgs.buildEnv {
+  inherit name paths;
+  buildInputs = paths;
+}

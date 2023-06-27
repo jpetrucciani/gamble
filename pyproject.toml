@@ -28,12 +28,12 @@ dev = [
 
 [tool.black]
 line-length = 100
-target-version = ["py310"]
+target-version = ["py311"]
 
 [tool.ruff]
 line-length = 100
 select = ["A", "ANN", "ARG", "B", "C4", "D", "E", "F", "ICN", "ISC", "N", "PD", "PGH", "PLR", "PLW", "PIE", "PT", "Q", "RET", "RUF", "S", "SIM", "TID", "UP", "W", "YTT"]
-ignore = ["A001", "A003", "ANN101", "ANN102", "ANN401", "B008", "B019", "C405", "D200", "D203", "D205", "D212", "D400", "D403", "D404", "D415", "E501", "N818", "PGH003", "PGH004", "PLR2004", "PT012", "S101", "S105", "S108", "W605"]
+ignore = ["A001", "A003", "ANN101", "ANN102", "ANN401", "B008", "B019", "C405", "D200", "D203", "D205", "D212", "D400", "D403", "D404", "D415", "E501", "N818", "PGH003", "PGH004", "PLR2004", "PT012", "S101", "S105", "S108", "S311", "W605"]
 target-version = "py310"
 exclude = [
     ".direnv",
@@ -49,7 +49,7 @@ per-file-ignores = {}
 max-complexity = 30
 
 [tool.mypy]
-python_version = "3.10"
+python_version = "3.11"
 disallow_untyped_defs = true
 ignore_missing_imports = true
 

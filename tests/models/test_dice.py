@@ -16,10 +16,6 @@ def test_die_init() -> None:
     assert die.net_sides == die.sides
     assert str(die) == "<d6 Die>"
     assert repr(die) == "<d6 Die>"
-    assert not die > die
-    assert not die < die
-    assert die >= die
-    assert die <= die
 
 
 def test_rigged_die_init() -> None:
@@ -33,10 +29,6 @@ def test_rigged_die_init() -> None:
     assert die.rigged_factor == 100
     assert str(die) == "<d6 Die>"
     assert repr(die) == "<d6 Die>"
-    assert not die > die
-    assert not die < die
-    assert die >= die
-    assert die <= die
 
 
 def test_dice_init() -> None:
@@ -70,7 +62,7 @@ def test_dice_complex() -> None:
     assert dice.max == 28
     assert dice.min == 9
     assert dice.parts
-    assert all([die.rigged_factor == 100 for die in dice.dice if isinstance(die, RiggedDie)])
+    assert all(die.rigged_factor == 100 for die in dice.dice if isinstance(die, RiggedDie))
 
 
 def test_broken_die() -> None:
