@@ -256,7 +256,7 @@ class Dice:
         @arg num_rolls: the number of times to roll the dice
         @ret list of values rolled by these dice
         """
-        return [self.roll() for _ in range(0, num_rolls)]
+        return [self.roll() for _ in range(num_rolls)]
 
     def max_of(self, num_rolls: int = 2) -> tuple[int, list[int]]:
         """
