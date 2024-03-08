@@ -44,4 +44,4 @@ jobs:
           architecture: x64
           cache: 'poetry'
       - run: poetry install
-      - run: pytest ./tests -s --cov gamble --cov-report html --cov-report term --cov-report xml:coverage.xml --junitxml=report.xml
+      - run: poetry run pytest ./tests -s --cov gamble --cov-report html --cov-report term --cov-report xml:coverage.xml --junitxml=report.xml
