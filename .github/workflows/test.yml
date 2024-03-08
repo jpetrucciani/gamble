@@ -37,9 +37,11 @@ jobs:
     name: python ${{ matrix.python-version }} tests
     steps:
       - uses: actions/checkout@v4.1.1
+      - run: pipx install poetry
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
           architecture: x64
           cache: 'poetry'
+      - run: poetry install
       - run: pytest ./tests -s --cov gamble --cov-report html --cov-report term --cov-report xml:coverage.xml --junitxml=report.xml
