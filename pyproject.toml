@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "gamble"
-version = "0.12"
+version = "0.13"
 description = "a collection of gambling classes/tools"
 readme = "README.md"
 authors = ["jacobi petrucciani <j@cobi.dev>"]

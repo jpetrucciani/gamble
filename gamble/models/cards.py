@@ -4,27 +4,61 @@ deck of cards submodule
 
 import random
 from collections import Counter
-from types import SimpleNamespace
+from dataclasses import dataclass
 from typing import Any
 from gamble.errors import InvalidCard
 
 
-class Suit(SimpleNamespace):
+@dataclass
+class Suit:
     """
-    suit namespace class
+    suit
+
+    Args:
+        name: the name of this suit
+        char: the ascii character representation for this suit
+        symbol: the unicode symbol char for this suit
+        value: the value of the suit
+        color: the color of the suit
+        unicode: the unicode id for this suit as an int
     """
 
+    name: str
+    char: str
+    symbol: str
+    value: int
+    color: int
+    unicode: int
 
-class Value(SimpleNamespace):
+
+@dataclass
+class Value:
     """
-    value namespace class
+    value
+
+    Args:
+        char: the ascii character representation for this value
+        name: the name of the card
+        value: the value of the card as an int
     """
 
+    char: str
+    name: str
+    value: int
 
-class Rank(SimpleNamespace):
+
+@dataclass
+class Rank:
     """
-    hand ranks namespace class
+    hand ranks
+
+    Args:
+        value: the integer value of the rank
+        name: the name of the rank
     """
+
+    value: int
+    name: str
 
 
 class Card:
