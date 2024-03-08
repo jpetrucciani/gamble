@@ -11,13 +11,6 @@ on:
   workflow_dispatch:
 
 jobs:
-  # archives:
-  #   runs-on: ubuntu-22.04
-  #   steps:
-  #     - uses: actions/checkout@v4.1.1
-  #     - uses: jpetrucciani/archives-check@main
-  #       with:
-  #         path: 'gamble/'
   mypy:
     runs-on: ubuntu-22.04
     steps:
@@ -35,7 +28,7 @@ jobs:
       - uses: jpetrucciani/ruff-check@main
   tests:
     runs-on: ubuntu-22.04
-    needs: [archives, mypy, black, ruff]
+    needs: [mypy, black, ruff]
     strategy:
       matrix:
         python-version: ['3.10', '3.11', '3.12']
