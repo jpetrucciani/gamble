@@ -1,22 +1,20 @@
 """
-@author jacobi petrucciani
-@desc die and dice submodule
+die and dice submodule
 """
+
 import random
 from gamble.errors import GambleException
 
 
 class Die:
     """
-    @desc a single die object
+    a single die object
+
+    Args:
+        sides: the number of sides to this die
     """
 
     def __init__(self, sides: int = 6) -> None:
-        """
-        @cc 2
-        @desc create a new die
-        @arg sides: the number of sides to this die
-        """
         if abs(int(sides)) < 2:
             raise GambleException("A die must have at least 2 sides")
         self.sides = abs(int(sides))
@@ -26,88 +24,106 @@ class Die:
 
     def __str__(self) -> str:
         """
-        @cc 1
-        @desc dunder str method
-        @ret the string representation of this die
+        dunder str method
+
+        Returns:
+            the string representation of this die
         """
         return f"<{'-' if self.negative else ''}d{self.sides} Die>"
 
     def __repr__(self) -> str:
         """
-        @cc 1
-        @desc dunder repr method
-        @ret the repr representation of this die
+        dunder repr method
+
+        Returns:
+            the repr representation of this die
         """
         return self.__str__()
 
     def __lt__(self, other: "Die") -> bool:
         """
-        @cc 1
-        @desc dunder less than method
-        @arg other: another Die instance
-        @ret true if this die is smaller than the other die
+        dunder less than method
+
+        Args:
+            other: another Die instance
+
+        Returns:
+            true if this die is smaller than the other die
         """
         return self.net_sides < other.net_sides
 
     def __gt__(self, other: "Die") -> bool:
         """
-        @cc 1
-        @desc dunder greater than method
-        @arg other: another Die instance
-        @ret true if this die is bigger than the other die
+        dunder greater than method
+
+        Args:
+            other: another Die instance
+
+        Returns:
+            true if this die is bigger than the other die
         """
         return self.net_sides > other.net_sides
 
     def __le__(self, other: "Die") -> bool:
         """
-        @cc 1
-        @desc dunder less than or equal to method
-        @arg other: another Die instance
-        @ret true if this die is smaller than or equal to the other die
+        dunder less than or equal to method
+
+        Args:
+            other: another Die instance
+
+        Returns:
+            true if this die is smaller than or equal to the other die
         """
         return self < other or self == other
 
     def __ge__(self, other: "Die") -> bool:
         """
-        @cc 1
-        @desc dunder greater than or equal to method
-        @arg other: another Die instance
-        @ret true if this die is bigger than or equal to the other die
+        dunder greater than or equal to method
+
+        Args:
+            other: another Die instance
+
+        Returns:
+            true if this die is bigger than or equal to the other die
         """
         return self > other or self == other
 
     @property
     def net_sides(self) -> int:
         """
-        @cc 1
-        @desc the raw max sides * multiplier
-        @ret the non-absolute value of this die's sides
+        the raw max sides * multiplier
+
+        Returns:
+            the non-absolute value of this die's sides
         """
         return self.sides * self.multiplier
 
     @property
     def max(self) -> int:
         """
-        @cc 1
-        @desc the max value this die can roll
-        @ret the max for this die
+        the max value this die can roll
+
+        Returns:
+            the max for this die
         """
         return -1 if self.negative else self.sides
 
     @property
     def min(self) -> int:
         """
-        @cc 1
-        @desc the min value this die can roll
-        @ret the min for this die
+        the min value this die can roll
+
+        Returns:
+            the min for this die
         """
         return self.sides if self.negative else 1
 
     def roll(self) -> int:
         """
-        @cc 1
-        @desc roll the die
-        @ret the value rolled by this die
+        roll the die
+
+        Returns:
+            the value rolled by this die
         """
         value = random.randrange(self.sides) + 1  # nosec
         self.rolls += 1
@@ -116,16 +132,14 @@ class Die:
 
 class RiggedDie(Die):
     """
-    @desc a die with a modifier to roll in the top 3 per the percentage passed in
+    a die with a modifier to roll in the top 3 per the percentage passed in
+
+    Args:
+        sides: the number of sides to this die
+        rigged_factor: int from 0-100 to manipulate the die into a high roll
     """
 
     def __init__(self, sides: int = 6, rigged_factor: int = 50) -> None:
-        """
-        @cc 3
-        @desc create a new Rigged die
-        @arg sides: the number of sides to this die
-        @arg rigged_factor: int from 0-100 to manipulate the die into a high roll
-        """
         self.rigged_factor = rigged_factor
         if rigged_factor < 0 or rigged_factor > 100:
             raise GambleException("The rigged factor must be between 0 and 100")
@@ -136,9 +150,10 @@ class RiggedDie(Die):
 
     def roll(self) -> int:
         """
-        @cc 2
-        @desc sometime override supers die roll depending on the rigged_factor
-        @ret the value rolled by this die
+        sometime override supers die roll depending on the rigged_factor
+
+        Returns:
+            the value rolled by this die
         """
         if random.randrange(101) <= self.rigged_factor:  # nosec
             value = [self.sides, self.sides - 1, self.sides - 2][random.randrange(3)]  # nosec
@@ -149,16 +164,14 @@ class RiggedDie(Die):
 
 class Dice:
     """
-    @desc a group of die objects
+    a group of die objects
+
+    Args:
+        init_string: a d-notation string representing a set of dice
+        rigged_factor: int from 0-100 to manipulate the die into a high roll
     """
 
     def __init__(self, init_string: str = "2d6", rigged_factor: int = -1) -> None:
-        """
-        @cc 2
-        @desc create a new d notation group of dice
-        @arg init_string: a d-notation string representing a set of dice
-        @arg rigged_factor: int from 0-100 to manipulate the die into a high roll
-        """
         self.__d_string = init_string.strip().lower().replace("-", "+-")
         self.d_strings = [x.strip() for x in self.__d_string.split("+")]
         self.dice: list[Die | RiggedDie] = []
@@ -185,55 +198,63 @@ class Dice:
 
     def __str__(self) -> str:
         """
-        @cc 1
-        @desc dunder str method
-        @ret the string representation of this set of dice
+        dunder str method
+
+        Returns:
+            the string representation of this set of dice
         """
         dice_string = "\n".join([str(x) for x in self.parts])
         return f"{{\n{dice_string}\n}}"
 
     def __repr__(self) -> str:
         """
-        @cc 1
-        @desc dunder repr method
-        @ret the repr representation of this set of dice
+        dunder repr method
+
+        Returns:
+            the repr representation of this set of dice
         """
         return self.__str__()
 
     @property
     def parts(self) -> list[Die | int]:
         """
-        @cc 1
-        @desc listing of the parts of this roll + bonuses
-        @ret a list of the parts of this dice calculation
+        listing of the parts of this roll + bonuses
+
+        Returns:
+            a list of the parts of this dice calculation
         """
         return [*self.dice, *self.bonuses]
 
     @property
     def max(self) -> int:
         """
-        @cc 1
-        @desc the max value these dice can roll
-        @ret the max for these dice + bonuses
+        the max value these dice can roll
+
+        Returns:
+            the max for these dice + bonuses
         """
         return sum([*[x.max for x in self.dice], *self.bonuses])
 
     @property
     def min(self) -> int:
         """
-        @cc 1
-        @desc the min value these dice can roll
-        @ret the min for these dice + bonuses
+        the min value these dice can roll
+
+        Returns:
+            the min for these dice + bonuses
         """
         return sum([*[x.min for x in self.dice], *self.bonuses])
 
     def create_die(self, sides: int, rigged_factor: int = -1) -> Die | RiggedDie:
         """
-        @cc 2
-        @arg sides: the number of sides on a die
-        @arg rigged_factor: int from 0-100 to manipulate the die into a high roll
-        @desc helper to create dice
-        @ret A Die object that can be rigged
+        helper to create dice
+
+        Args:
+            sides: the number of sides on a die
+            rigged_factor: int from 0-100 to manipulate the die into a high roll
+
+        Returns:
+            A Die object that can be rigged
         """
         if rigged_factor != -1:
             return RiggedDie(sides, rigged_factor)
@@ -241,9 +262,10 @@ class Dice:
 
     def roll(self) -> int:
         """
-        @cc 1
-        @desc roll the dice
-        @ret the value rolled by this dice
+        roll the dice
+
+        Returns:
+            the value rolled by this dice
         """
         self.rolls += 1
         rolls = [x.roll() for x in self.dice]
@@ -251,19 +273,25 @@ class Dice:
 
     def roll_many(self, num_rolls: int = 2) -> list[int]:
         """
-        @cc 1
-        @desc roll dice multiple times
-        @arg num_rolls: the number of times to roll the dice
-        @ret list of values rolled by these dice
+        roll dice multiple times
+
+        Args:
+            num_rolls: the number of times to roll the dice
+
+        Returns:
+            list of values rolled by these dice
         """
         return [self.roll() for _ in range(num_rolls)]
 
     def max_of(self, num_rolls: int = 2) -> tuple[int, list[int]]:
         """
-        @cc 1
-        @desc roll dice multiple times
-        @arg num_rolls: the number of times to roll the dice
-        @ret a tuple with the max value rolled by the dice, and the dice rolls
+        roll dice multiple times
+
+        Args:
+            num_rolls: the number of times to roll the dice
+
+        Returns:
+            a tuple with the max value rolled by the dice, and the dice rolls
         """
         rolls = self.roll_many(num_rolls)
         max_roll = max(rolls)
@@ -271,10 +299,13 @@ class Dice:
 
     def min_of(self, num_rolls: int = 2) -> tuple[int, list[int]]:
         """
-        @cc 1
-        @desc roll dice multiple times
-        @arg num_rolls: the number of times to roll the dice
-        @ret a tuple with the min value rolled by the dice, and the dice rolls
+        roll dice multiple times
+
+        Args:
+            num_rolls: the number of times to roll the dice
+
+        Returns:
+            a tuple with the min value rolled by the dice, and the dice rolls
         """
         rolls = self.roll_many(num_rolls)
         min_roll = min(rolls)

@@ -1,8 +1,6 @@
 """
-@author jacobi petrucciani
-@desc golf related games
+golf related games
 """
-
 
 YARDS = (
     332,
@@ -31,17 +29,18 @@ HCC_DATA = zip(YARDS, PAR, HANDICAP, strict=True)
 
 class Hole:
     """
-    @desc a golf hole object
+    a golf hole object
     """
 
     def __init__(self, tee: int, yards: int, par: int, handicap: int) -> None:
         """
-        @cc 1
-        @desc hole constructor
-        @arg tee: the tee number for this hole
-        @arg yards: the number of yards from tee to hole
-        @arg par: the par for this hole
-        @arg handicap: the handicap value for this hole
+        hole constructor
+
+        Args:
+            tee: the tee number for this hole
+            yards: the number of yards from tee to hole
+            par: the par for this hole
+            handicap: the handicap value for this hole
         """
         self.tee = tee
         self.yards = yards
@@ -51,16 +50,14 @@ class Hole:
 
 class Course:
     """
-    @desc a golf course object
+    a golf course object
+
+    Args:
+        name: the name of this golf course
+        holes: a list of holes in this golf course
     """
 
     def __init__(self, name: str, holes: list[Hole]) -> None:
-        """
-        @cc 1
-        @desc course constructor
-        @arg name: the name of this golf course
-        @arg holes: a list of holes in this golf course
-        """
         self.name = name
         self.holes = sorted(holes, key=lambda hole: hole.tee)
         self.yards = sum(x.yards for x in self.holes)
@@ -71,32 +68,28 @@ class Course:
 
 class Player:
     """
-    @desc a golf player object
+    a golf player object
+
+    Args:
+        name: the name of the player
+        handicap: the handicap of the player
     """
 
     def __init__(self, name: str, handicap: int) -> None:
-        """
-        @cc 1
-        @desc player constructor
-        @arg name: the name of the player
-        @arg handicap: the handicap of the player
-        """
         self.name = name
         self.handicap = handicap
 
 
 class Group:
     """
-    @desc a golf group object
+    a golf group object
+
+    Args:
+        course: the course that this group is playing
+        players: the list of players in this group
     """
 
     def __init__(self, course: Course, players: list[Player]) -> None:
-        """
-        @cc 1
-        @desc group constructor
-        @arg course: the course that this group is playing
-        @arg players: the list of players in this group
-        """
         self.course = course
         self.players = players
         self.scores = []  # type: ignore
