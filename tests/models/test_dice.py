@@ -1,6 +1,7 @@
 """
 tests for the dice submodule of gamble
 """
+
 import pytest
 from gamble import Die, RiggedDie, Dice
 from gamble.errors import GambleException

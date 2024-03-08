@@ -1,6 +1,7 @@
 """
 tests for the cards submodule of gamble
 """
+
 import pytest
 import random
 from gamble import Card, Deck, EuchreDeck, Hand
