@@ -112,9 +112,14 @@ ENV/
 
 # End of https://www.gitignore.io/api/python
 
+report.xml
 # vscode
 .history/
 .vscode/
 
 # direnv
 .direnv/
+
+# docs
+docs/build
+docs/source/gamble

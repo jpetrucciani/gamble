@@ -1,19 +1,18 @@
 """
-@author jacobi petrucciani
-@desc custom exceptions and error handling
+custom exceptions and error handling
 """
+
 from typing import Any
 
 
 class GambleException(Exception):  # pragma: no cover
     """
-    @desc base gamble exception class
+    base gamble exception class
     """
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:
         """
-        @cc 2
-        @desc exception constructor
+        exception constructor
         """
         self.__dict__.update(kwargs)
         extra = ""
@@ -24,6 +23,4 @@ class GambleException(Exception):  # pragma: no cover
 
 
 class InvalidCard(GambleException):
-    """
-    @desc the given string is not a valid card
-    """
+    """the given string is not a valid card"""
