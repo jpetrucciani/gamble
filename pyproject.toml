@@ -20,7 +20,7 @@ classifiers=[
 python = ">= 3.10"
 
 [tool.poetry.dev-dependencies]
-black = "24.2.0"
+black = "24.3.0"
 ptpython = ">= 3.0.26"
 pytest = "^7.4.3"
 pytest-cov = "^4.1.0"
