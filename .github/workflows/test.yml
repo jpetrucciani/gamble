@@ -12,31 +12,31 @@ on:
 
 jobs:
   mypy:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4.1.1
+      - uses: actions/checkout@v4.1.7
       - uses: jpetrucciani/mypy-check@master
         with:
           path: gamble
   black:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4.1.1
+      - uses: actions/checkout@v4.1.7
       - uses: jpetrucciani/black-check@master
   ruff:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4.1.1
+      - uses: actions/checkout@v4.1.7
       - uses: jpetrucciani/ruff-check@main
   tests:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     needs: [mypy, black, ruff]
     strategy:
       matrix:
-        python-version: ['3.10', '3.11', '3.12']
+        python-version: ['3.10', '3.11', '3.12', '3.13']
     name: python ${{ matrix.python-version }} tests
     steps:
-      - uses: actions/checkout@v4.1.1
+      - uses: actions/checkout@v4.1.7
       - run: pipx install poetry
       - uses: actions/setup-python@v5
         with:
