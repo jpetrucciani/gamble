@@ -6,6 +6,8 @@ import random
 from collections import Counter
 from dataclasses import dataclass
 from typing import Any
+from dataclasses import dataclass, field
+from typing import List, Any
 from gamble.errors import InvalidCard
 
 
@@ -761,3 +763,103 @@ class BlackJackDeck(MultiDeck):
 
     def __init__(self, num_decks: int = 8) -> None:
         super().__init__(num_decks=num_decks)
+
+# (Suit, Value, Card, Hand, Deck, BlackJackDeck, MultiDeck etc... já definidos anteriormente)
+
+@dataclass
+class Player:
+    name: str
+    hand: Hand = field(default_factory=lambda: Hand([]))
+    score: int = 0
+
+    def draw(self, deck: Deck, num_cards: int = 1) -> None:
+        cards = deck.draw(times=num_cards)
+        if isinstance(cards, list):
+            self.hand.cards.extend(cards)
+        else:
+            self.hand.cards.append(cards)
+
+    def reset_hand(self) -> None:
+        self.hand = Hand([])
+
+    def show_hand(self) -> None:
+        print(f"{self.name}'s hand: {self.hand}")
+
+    def take_action(self, valid_actions: List[str]) -> str:
+        action = input(f"{self.name}, choose your action {valid_actions}: ").strip().lower()
+        while action not in valid_actions:
+            action = input(f"Invalid action. Choose from {valid_actions}: ").strip().lower()
+        return action
+
+class Dealer(Player):
+    def should_hit(self) -> bool:
+        # Regra básica para blackjack: dealer bate até 17
+        return sum(card.value.value for card in self.hand.cards) < 17
+
+class Game:
+    def __init__(self, players: List[Player], deck: Deck) -> None:
+        self.players = players
+        self.deck = deck
+        self.round_over = False
+
+    def start(self) -> None:
+        raise NotImplementedError
+
+    def end_round(self) -> None:
+        self.round_over = True
+
+    def reset_game(self) -> None:
+        for player in self.players:
+            player.reset_hand()
+        self.deck.shuffle()
+
+class PokerGame(Game):
+    def start(self) -> None:
+        print("Starting a Poker game...")
+        self.deal_hands()
+        self.play_round()
+
+    def deal_hands(self) -> None:
+        for player in self.players:
+            player.draw(self.deck, num_cards=5)
+            player.show_hand()
+
+    def play_round(self) -> None:
+        # Exemplo básico de interação
+        for player in self.players:
+            action = player.take_action(valid_actions=["fold", "check", "raise"])
+            if action == "fold":
+                print(f"{player.name} folded.")
+            elif action == "check":
+                print(f"{player.name} checks.")
+            elif action == "raise":
+                print(f"{player.name} raises.")
+        # Decidir vencedores e pontuar aqui
+
+class BlackJackGame(Game):
+    def start(self) -> None:
+        print("Starting a Blackjack game...")
+        self.deal_initial_hands()
+        self.play_round()
+
+    def deal_initial_hands(self) -> None:
+        for player in self.players:
+            player.draw(self.deck, num_cards=2)
+            player.show_hand()
+
+    def play_round(self) -> None:
+        for player in self.players:
+            while True:
+                action = player.take_action(valid_actions=["hit", "stand"])
+                if action == "hit":
+                    player.draw(self.deck, num_cards=1)
+                    player.show_hand()
+                    if self.check_bust(player):
+                        print(f"{player.name} busted!")
+                        break
+                elif action == "stand":
+                    break
+        # Decidir vencedores e pontuar aqui
+
+    def check_bust(self, player: Player) -> bool:
+        return sum(card.value.value for card in player.hand.cards) > 21

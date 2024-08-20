@@ -4,7 +4,15 @@ tests for the cards submodule of gamble
 
 import pytest
 import random
-from gamble import Card, Deck, EuchreDeck, Hand
+from gamble import (
+    Card,
+    Deck,
+    EuchreDeck,
+    Hand,
+    BlackJackGame,
+    PokerGame,
+    PlayerActions,
+)
 from gamble.errors import InvalidCard
 
 
@@ -127,3 +135,38 @@ def test_hand_ranks() -> None:
 
     assert two_pair > one_pair
     assert low_straight_flush < high_straight_flush
+
+
+def test_blackjack_game() -> None:
+    """test a simple simulation of a blackjack game"""
+    game = BlackJackGame()
+    player_hand, dealer_hand = game.start_game()
+
+    # Simulando as ações do jogador
+    game.player_action(PlayerActions.HIT)
+    game.player_action(PlayerActions.STAND)
+
+    assert len(player_hand.cards) >= 2  # Jogador deve ter pelo menos duas cartas
+    assert len(dealer_hand.cards) >= 2  # Dealer deve ter pelo menos duas cartas
+
+    result = game.resolve_game()
+    assert result in ["win", "lose", "draw"]  # Resultado deve ser uma dessas opções
+
+
+def test_poker_game() -> None:
+    """test a simple simulation of a poker game"""
+    game = PokerGame(num_players=4)
+    game.deal_hands()
+
+    for player in game.players:
+        assert len(player.hand.cards) == 5  # Cada jogador deve receber 5 cartas
+
+    # Simulando uma rodada de apostas
+    game.player_action(0, PlayerActions.CALL)
+    game.player_action(1, PlayerActions.RAISE, amount=10)
+    game.player_action(2, PlayerActions.FOLD)
+    game.player_action(3, PlayerActions.CALL)
+
+    # Finalizando o jogo e verificando o vencedor
+    winner = game.determine_winner()
+    assert winner in game.players  # O vencedor deve estar entre os jogadores
