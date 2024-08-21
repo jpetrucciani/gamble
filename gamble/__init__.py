@@ -14,10 +14,10 @@ from gamble.models import (
     Suit,
     Value,
     # game logic and actions
-    Game,  # Nova classe para gerenciar sessões de jogo
-    PokerGame,    # Classe para o jogo de poker
+    # Game,  # Nova classe para gerenciar sessões de jogo
+    # PokerGame,    # Classe para o jogo de poker
     BlackJackGame,  # Classe para o jogo de blackjack
-    Player,  # Enum ou classe para ações dos jogadores
+    BlackJackPlayer,  # Enum ou classe para ações dos jogadores
     # dice
     Die,
     Dice,
@@ -45,7 +45,7 @@ __all__ = [
     "Game",
     "PokerGame",
     "BlackJackGame",
-    "Player",
+    "BlackJackPlayer",
     # dice
     "Die",
     "Dice",

@@ -1,0 +1,3 @@
+"""
+testes funcionais para gamble
+"""
