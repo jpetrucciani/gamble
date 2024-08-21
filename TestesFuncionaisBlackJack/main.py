@@ -9,11 +9,13 @@ from gamble import models as g
 from typing import List
 
 if __name__ == "__main__":
+    # print(g.BlackJackPlayer())
     players: List[g.BlackJackPlayer] = [
-        g.BlackJackPlayer("Fulano", 10),
-        g.BlackJackPlayer("Ciclano", 10),
-        g.BlackJackPlayer("Beltrano", 10)
+        g.BlackJackPlayer("Fulano", 10)
+        # g.BlackJackPlayer("Ciclano", 10),
+        # g.BlackJackPlayer("Beltrano", 10)
     ]
 
     game = g.BlackJackGame(players)
     game.start_game()
+    print(game)
