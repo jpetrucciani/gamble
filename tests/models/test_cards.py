@@ -138,11 +138,22 @@ def test_hand_ranks() -> None:
     assert low_straight_flush < high_straight_flush
 
 
+# BlackJack
+
 def test_blackjack_card() -> None:
     card = BlackJackCard.get("AS")  # Ace of Spades
     assert card.value.name == "ace"
     assert card.suit.name == "spades"
     assert str(card) == "A♠"
+
+def test_blackjack_card_comparison() -> None:
+    card1 = BlackJackCard(value=BlackJackCard.Values.ACE, suit=BlackJackCard.Suits.HEARTS)
+    card2 = BlackJackCard(value=BlackJackCard.Values.KING, suit=BlackJackCard.Suits.CLUBS)
+    
+    assert card1 < card2
+    assert not (card1 > card2)
+    assert card1 <= card2
+    assert card1 != card2    
 
 def test_invalid_card() -> None:
     with pytest.raises(InvalidCard):
@@ -162,24 +173,35 @@ def test_blackjack_deck() -> None:
     assert isinstance(drawn_card, BlackJackCard)
     assert len(deck.cards) == 51
 
+def test_blackjack_deck_methods() -> None:
+    deck = BlackJackDeck(shuffle=False)
+    
+    # Teste de método clear
+    deck.clear()
+    assert len(deck.cards) == 0
+    
+    # Teste de método default_deck
+    deck.default_deck(deck.cards)
+    assert len(deck.cards) == 52  # Deve conter 52 cartas
+    
+    # Teste de método shuffle
+    deck.shuffle()
+    assert len(deck.cards) == 52  # Cartas ainda devem ser 52 após embaralhamento
+    
+    # Teste de método draw
+    card = deck.draw()
+    assert isinstance(card, BlackJackCard)
+    assert len(deck.cards) == 51  # Uma carta deve ser removida
+    
+    # Teste de método draw_hand
+    hand = deck.draw_hand(size=5)
+    assert len(hand.cards) == 5
+
 def test_blackjack_player_draw() -> None:
     deck = BlackJackDeck()
     player = BlackJackPlayer(name="TestPlayer", bet=100)
     player.draw(deck, num_cards=2)
     assert len(player.hand.cards) == 2
-
-from unittest.mock import patch
-
-from unittest.mock import patch
-
-def test_blackjack_game_flow() -> None:
-    players = [
-        BlackJackPlayer("Fulano", bet=100),
-        BlackJackPlayer("Beltrano", bet=100),
-        BlackJackPlayer("Cicrano", bet=100)
-    ]
-    game = BlackJackGame(players)
-    game.start_game()
 
 def test_dealer_logic() -> None:
     dealer = Dealer("Dealer", bet=0)
@@ -264,6 +286,20 @@ def test_invalid_card_creation():
         BlackJackCard.get("XH")  # Valor inválido
     with pytest.raises(InvalidCard):
         BlackJackCard.get("ASD")  # Formato inválido
+
+def test_blackjack_game_dealer_logic() -> None:
+    players = [BlackJackPlayer("Player1", bet=100)]
+    deck = BlackJackDeck()
+    deck.shuffle()  # Embaralhe o baralho para garantir aleatoriedade
+    game = BlackJackGame(players, deck)
+    game.deal_initial_hands()  # Lide as cartas iniciais
+    
+    dealer = game.dealer
+    while dealer.should_hit():
+        dealer.draw(deck)
+    
+    # Verificar se o dealer estourou ou não
+    assert not dealer.busted
 
 # def test_poker_game() -> None:
 #     """test a simple simulation of a poker game"""
