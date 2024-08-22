@@ -5,6 +5,7 @@ tests for the cards submodule of gamble
 import pytest
 import random
 from gamble.models.BlackJack import BlackJackCard, BlackJackHand, Dealer
+from gamble.models.Baccarat import BaccaratCard, BaccaratDeck, BaccaratHand, BaccaratGame
 from gamble import (
     Card,
     Deck,
@@ -138,7 +139,7 @@ def test_hand_ranks() -> None:
     assert low_straight_flush < high_straight_flush
 
 
-# BlackJack
+# Testes para BlackJack
 
 def test_blackjack_card() -> None:
     card = BlackJackCard.get("AS")  # Ace of Spades
@@ -300,6 +301,94 @@ def test_blackjack_game_dealer_logic() -> None:
     
     # Verificar se o dealer estourou ou não
     assert not dealer.busted
+
+
+# Testes para Baccarat
+
+@pytest.fixture
+def setup_game():
+    game = BaccaratGame()
+    return game
+
+def test_card_initialization():
+    card = BaccaratCard('A', 'ace', 1, '♠')
+    assert card.char == 'A'
+    assert card.name == 'ace'
+    assert card.value == 1
+    assert card.suit == '♠'
+    assert str(card) == 'A♠'
+
+def test_deck_initialization(setup_game):
+    deck = setup_game.deck
+    assert len(deck.cards) == 6 * 52  # 6 decks * 52 cards
+    assert isinstance(deck.cards[0], BaccaratCard)
+
+def test_shuffle_deck(setup_game):
+    deck = setup_game.deck
+    original_deck = deck.cards.copy()
+    deck.shuffle()
+    # Verifica se o deck foi realmente embaralhado
+    assert deck.cards != original_deck
+    # Verifica se o conteúdo do deck não mudou
+    assert sorted(deck.cards, key=lambda card: (card.suit, card.char)) == sorted(original_deck, key=lambda card: (card.suit, card.char))
+
+
+def test_draw_card(setup_game):
+    deck = setup_game.deck
+    card_before_draw = len(deck.cards)
+    deck.draw()
+    card_after_draw = len(deck.cards)
+    assert card_after_draw == card_before_draw - 1
+
+def test_hand_initialization():
+    hand = BaccaratHand()
+    assert len(hand.cards) == 0
+
+def test_add_card_to_hand():
+    hand = BaccaratHand()
+    card = BaccaratCard('5', 'five', 5, '♠')
+    hand.add_card(card)
+    assert len(hand.cards) == 1
+    assert hand.cards[0] == card
+
+def test_hand_value():
+    hand = BaccaratHand()
+    hand.add_card(BaccaratCard('A', 'ace', 1, '♠'))
+    hand.add_card(BaccaratCard('5', 'five', 5, '♠'))
+    assert hand.get_value() == 6
+
+    hand = BaccaratHand()
+    hand.add_card(BaccaratCard('K', 'king', 0, '♠'))
+    hand.add_card(BaccaratCard('7', 'seven', 7, '♠'))
+    assert hand.get_value() == 7
+
+def test_baccarat_game_initial_deal(setup_game):
+    game = setup_game
+    game.deal_initial_hands()
+    assert len(game.player_hand.cards) == 2
+    assert len(game.banker_hand.cards) == 2
+
+def test_baccarat_game_play(setup_game):
+    game = setup_game
+    result = game.play_game()
+    assert result in ["Player wins!", "Banker wins!", "Tie!"]
+
+def test_baccarat_game_winner(setup_game):
+    game = setup_game
+    game.player_hand.add_card(BaccaratCard('A', 'ace', 1, '♠'))
+    game.player_hand.add_card(BaccaratCard('9', 'nine', 9, '♠'))
+    game.banker_hand.add_card(BaccaratCard('T', 'ten', 0, '♠'))
+    game.banker_hand.add_card(BaccaratCard('8', 'eight', 8, '♠'))
+    
+    # Ajustar o resultado esperado conforme a lógica do Baccarat
+    assert game.declare_winner() == "Banker wins!"
+
+def test_baccarat_game_reset(setup_game):
+    game = setup_game
+    game.reset_game()
+    assert len(game.deck.cards) == 6 * 52  # Ensure the deck is reset to original size
+    assert len(game.player_hand.cards) == 0
+    assert len(game.banker_hand.cards) == 0
 
 # def test_poker_game() -> None:
 #     """test a simple simulation of a poker game"""
