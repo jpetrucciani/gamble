@@ -17,5 +17,6 @@ if __name__ == "__main__":
     ]
 
     game = g.BlackJackGame(players)
+    game.players[0].sum = 21
     game.start_game()
     print(game)

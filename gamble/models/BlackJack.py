@@ -422,7 +422,20 @@ class BlackJackGame:
         self.dealer.show_hand(dealer = False)
         for player in self.players:
             print(f"{player.name}: {player.result}, sum: {player.sum}, score: {player.total}")
-        
+    
+    def distribute_bets(self, player: BlackJackPlayer) -> None:
+        if player.sum > 21:
+            player.result = "Lost"
+            player.total = -player.bet
+        elif self.dealer.busted or player.sum > self.dealer.sum:
+            player.result = "Win"
+            player.total = player.bet * 2
+        elif player.sum < self.dealer.sum:
+            player.result = "Lost"
+            player.total = -player.bet
+        else:
+            player.result = "Push"
+            player.total = 0
 
     def get_sum_cards(self, player: BlackJackPlayer) -> int:
         return sum(card.value.value for card in player.hand.cards)

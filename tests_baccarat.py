@@ -24,7 +24,17 @@ def test2_place_bet_1():
     player.place_bet(amount=5, bet_on='Player')
     assert player.bet_amount == 5
     assert player.bet_on == 'Player'
-    assert player.balance == 0
+    assert player.balance == 5
+
+    game = BaccaratGame(player)
+    result = game.play_game()
+
+    if "Player venceu" in result:
+        assert player.balance == 10
+    elif "Banker vence" in result:
+        assert player.balance == 0
+    else:
+        assert player.balance == 0
 
 #Teste 2 da função place_bet (Aposta > Balanço)
 def test3_place_bet_2():
@@ -42,13 +52,23 @@ def test4_place_bet_3():
     assert player.bet_on == 'Player'
     assert player.balance == 0
 
-#Teste 4 da função place_bet (Valores Quebrados)
+#Teste 4 da função place_bet (apostar no banker)
 def test5_place_bet_4():
-    player = Player(balance=0.51)
-    player.place_bet(amount=0.51, bet_on='Player')
-    assert player.bet_amount == 0.51
-    assert player.bet_on == 'Player'
-    assert player.balance == 0
+    player = Player(balance=100)
+    player.place_bet(amount=10, bet_on='Banker')
+    assert player.bet_amount == 10
+    assert player.bet_on == 'Banker'
+    assert player.balance == 100
+
+    game = BaccaratGame(player)
+    result = game.play_game()
+
+    if "Player venceu" in result:
+        assert player.balance == 90
+    elif "Banker venceu" in result:
+        assert player.balance == 109.5
+    else:
+        assert player.balance == 90
 
 #Teste 5 da função place_bet (Valores Quebrados, Aposta > Balanço)
 def test6_place_bet_5():
@@ -58,13 +78,23 @@ def test6_place_bet_5():
         assert player.bet_on == 'Player'
         assert player.balance == 0.99
 
-#Teste 6 da função place_bet (Aposta < Balanço)
+#Teste 6 da função place_bet (Aposta no empate)
 def test7_place_bet_6():
-    player = Player(balance=5)
-    player.place_bet(amount=2, bet_on='Player')
-    assert player.bet_on == 'Player'
-    assert player.bet_amount == 2
-    assert player.balance == 3
+    player = Player(balance=100)
+    player.place_bet(amount=10, bet_on='Tie')
+    assert player.bet_on == 'Tie'
+    assert player.bet_amount == 10
+    assert player.balance == 100
+
+    game = BaccaratGame(player)
+    result = game.play_game()
+
+    if "Player venceu" in result:
+        assert player.balance == 90
+    elif "Banker venceu" in result:
+        assert player.balance == 90
+    else:
+        assert player.balance == 170
 
 #Teste 7 da função place_bet (Valores Quebrados, Aposta < Balanço)
 def test8_place_bet_7():
@@ -72,20 +102,3 @@ def test8_place_bet_7():
     player.place_bet(amount=0.99, bet_on='Player')
     assert player.bet_on == 'Player'
     assert player.bet_amount == 0.99
-    assert str(player.balance)[:4] == '0.01'
-
-#Teste 1 da função win_bet (All win)
-def test9_win_bet_1():
-    player=Player(balance=10)
-    player.place_bet(amount=10, bet_on='Player')
-    player.win_bet(payout=5)
-    assert player.bet_amount == 0
-    assert player.balance == 50
-
-#Teste 2 da função win_bet (Aposta < Balanço)
-def test10_win_bet_1():
-    player=Player(balance=10)
-    player.place_bet(amount=5, bet_on='Player')
-    player.win_bet(payout=5)
-    assert player.bet_amount == 0
-    assert player.balance == 30

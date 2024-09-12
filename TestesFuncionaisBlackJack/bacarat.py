@@ -11,7 +11,7 @@ from typing import List
 
 def main():
     # Criando um jogador com saldo inicial de 100
-    player = Player(balance=400)
+    player = Player(balance=100)
 
     # Criando o jogo e passando o jogador
     game = g.BaccaratGame(player)
