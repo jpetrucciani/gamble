@@ -1,30 +1,25 @@
 { pkgs ? import
     (fetchTarball {
-      name = "jpetrucciani-2024-08-04";
-      url = "https://github.com/jpetrucciani/nix/archive/5d293e2449312b4fef796dcd0836bf6bc1fad684.tar.gz";
-      sha256 = "0z8dyf6d9mdka8gq3zchyy5ywzz91bj18xzdjnm0gpwify0pk312";
+      name = "jpetrucciani-2024-11-23";
+      url = "https://github.com/jpetrucciani/nix/archive/9615d18512c3cadce8ae2ce4a92c5215296adaa9.tar.gz";
+      sha256 = "1ibk7xkzwa8ljdm8360rg6nxnwzl06gbxlx93zzz0imv6nsf96kq";
     })
     { }
 }:
 let
   name = "gamble";
 
-  python = (pkgs.poetry2nix.mkPoetryEnv {
+  python = pkgs.poetry-helpers.mkEnv {
     projectDir = ./.;
-    python = pkgs.python311;
-    overrides = pkgs.poetry2nix.overrides.withDefaults (final: prev: { });
-    editablePackageSources = {
-      "gamble" = ./gamble;
-    };
-    preferWheels = true;
-  });
+    python = pkgs.python312;
+    editablePackageSources."gamble" = ./gamble;
+  };
 
   tools = with pkgs; {
     cli = [
       nixpkgs-fmt
     ];
     python = [
-      ruff
       poetry
       python
     ];
@@ -65,6 +60,6 @@ let
 in
 (env.overrideAttrs (_: {
   inherit name;
-  NIXUP = "0.0.6";
+  NIXUP = "0.0.8";
 })) // { inherit scripts; }
 
